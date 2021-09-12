@@ -1,0 +1,71 @@
+**jdbc basic**
+
+▣ DBMS(=RDBMS) : DataBase Management System 
+				 데이터들을 잘 저장학고 데이터들을 효율적으로 제어할 수 있는 시스템
+
+▣ JDBC - Java DataBase Connectivity
+		 자바 어플리케이션과 데이터베이스 연동을 위한 기술 
+
+		 일반사용자 <----> Java Application <--- JCBC ---> DataBase
+		 
+▣ JDBC 설계방식
+  - Sun 에서는 JDBC 표준( 인터페이스 )를 설계
+  - DB Vendor(회사)에서는 JDBC 표준에 의거해 개발(인터페이스를 Implements 한 class 를 정의)
+     > (DB Vendor : DB 개발해서 판매하는 회사 ex) Oracle, MsSQL, MySQL, MongoDB,, etc)
+     > 어떠한 벤더사든 JDBC API 만 보고 개발
+  - Java 응용프로그램(application) 개발자는 JDBC 표준(인터페이스)를 이용해 프로그램을 개발
+  
+  ▷ 이러한 설계방식이 가지는 장점 
+    - Java 응용프로그램 개발 진영에서는 각 데이터베이스에 관계없이 JCBD 표준(인터페이스)을 보고 개발 -> 하나의 사용방식만 익히면 된다(하나의 메세지 방식, 표준만 참고)
+    - 만약 데이터베이스 제품군이 변경되어야해도 어플리케이션 변경은 최소화, JDBC 연동 부분은 같으므로 각 DB의 sql 특성만 고려하면 된다
+    - 각 DB Vendor 에서 자신의 시스템을 업데이트 해도 외부 영향은 최소화, 즉 결합도가 낮아져 유지보수성이 향상 (Encapsulation, Polymorphism 과 연관)
+      (실제 구현체를 보지 않고 인터페이스만 보고도 사용할 수 있기 때문) 
+      
+    - 히나의 메세지 방식 ( JDBC 표준 인터페이스 ) 으로,
+      다양한 구현 객체 ( Oracle, MS SQL, MySQL, DB2 등 ) 들이 각자의 방식으로 동작하게 할 수 있다  
+
+▣ JDBC 프로그래밍 개발단계
+
+   - SELECT 정보 조회
+   
+      1. JDBC Driver loading ( 한 번만 실행, Java 1.6이상부터 생략가능 But, 나중을 위해 쓰는 습관을 들일 것 )
+      2. Connection
+      3. PreparedStatement ( 준비된 진술 - 데이터베이스에 말 할 내용 )
+      4. SQL 실행 : executeQuery()
+      5. ResultSet (결과 확인) 
+      6. close
+      
+   - INSERT, DELETE, UPDATE 정보 생성, 삭제, 수정
+   
+      1. JDBC Driver loading 
+      2. Connection
+      3. PreparedStatement
+      4. SQL 실행 : executeUpdate()
+      5. close (SELECT와 달리 리턴값없음)
+   
+   - Class.forName(), Connection con, PreparedStatement pstmt, ResultSet rs
+     ==> 모두 객체를 만드는 것들인데 어느 것 하나 new 연산자를 통해 만들지 않는다 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+      
+      
+      
+   
+      
+      
+      
+      
+      
+      
+      
