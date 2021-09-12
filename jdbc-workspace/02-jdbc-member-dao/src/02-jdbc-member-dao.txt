@@ -1,0 +1,5 @@
+**02-jdbc-member-dao**
+
+  Test <---> MemberDAO <---> Database
+  
+  			 MemberVO(제일먼저 생성)
