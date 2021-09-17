@@ -18,6 +18,9 @@
    in / not in 연산자는 서브쿼리를 사용할 수 있다는 장점이 있기 때문에 복잡한 수식에 사용됨 
  */
 
+
+
+
 -- in 사용 예시
 -- maker가 대한곱창, 이춘복참치 인 food 정보를 조회 
 select id, name, maker, price 
@@ -167,7 +170,7 @@ select job, avg(salary)
 from s_employee
 group by job
 
-------------------------------
+---------------------------------------------------------------
 -- step2.
 -- 전체 사원 정보의 평균월급(salary)보다 직종별(job) 평균월급이 낮은 직종
 select job
