@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step7 table ex</title>
+</head>
+
+<!--  다음과 같이 출력해보는 예제
+
+				자기소개
+			이름			지코
+			
+						독서
+			
+			취미			산책
+
+						영화감상
+ -->
+
+<body>
+	<!-- 2행 5열 -->
+	<!-- 경계선 만들기 -->
+	<table border="1">
+		<tr>
+			<td colspan="2" align="center">자기소개</td>
+			<!-- align="center"는 중앙정렬 -->
+		</tr>
+		<tr>
+			<td>이름</td>
+			<td>지코</td>
+		</tr>
+		<tr>
+			<td rowspan="3" align="center">취미</td>
+			<td>독서</td>
+		</tr>
+		<tr>
+			<td>산책</td>
+		</tr>
+		<tr>
+			<td>영화감상</td>
+		</tr>
+	</table>
+</body>
+</html>
+
+

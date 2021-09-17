@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>html table 연습</title>
+</head>
+<body>
+<!-- border : 표 테두리선 경계 만들기 -->
+<!-- tr : table row , 한 행을 표시-->
+<!-- td : table data -->
+<!-- 1행 2열 만들기 -->
+
+<table border="1">
+	<tr> 
+		<td>곱창</td><td>참치</td> 
+	</tr>
+</table>
+
+<br><br><br>
+
+<!-- 2행 2열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table border="1">
+	<tr>
+		<td>글번호</td><td>작성자</td>
+	</tr>
+	<tr> 
+		<td>1</td><td>지코</td>
+	</tr>
+</table>
+
+<br><br><br>
+<!-- 3행 3열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table border="1">
+	<tr> 
+		<td>글번호</td><td>작성자</td><td>글제목</td>
+	</tr>
+	<tr> 
+		<td>1</td><td>지코</td><td>사람</td>
+	</tr>
+	<tr> 
+		<td>2</td><td>근원</td><td>러브포엠</td> 
+	</tr>
+</table>
+
+<!-- 
+		table의 td 속성 : colspan="2" -> 2열을 합친다
+		
+		    신청서
+		이름		아이유
+		나이		30세
+		
+ -->
+ <br><br><br>
+ <table border="1">
+ 	<tr>
+ 		<td colspan="2" align="center">신청서</td>
+ 	</tr>
+ 	<tr>
+ 		<td>이름</td><td>아이유</td>
+ 	</tr>
+ 	<tr>
+ 		<td>나이</td><td>30세</td>
+ 	</tr>
+</table>
+
+<!--	
+		rowspan : 행을 합칠 때 사용하는 속성
+		
+			
+				아이유
+		신청서
+				30세
+
+ -->
+ <br><br><br>
+ <table border="1">
+ 	<tr>
+ 		<td rowspan="2">신청서</td><td>아이유</td>
+ 	</tr>
+ 	<tr>
+ 		<td>30세</td>
+ 	</tr>
+</table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
