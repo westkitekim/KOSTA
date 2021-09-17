@@ -132,6 +132,7 @@ eclipse-jee-2021-03-R-win32-x86_64/
 eclipse-jee-2021-06-R-win32-x86_64/
 iotest/
 Syeon/
+WAS/
 
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,windows,database
