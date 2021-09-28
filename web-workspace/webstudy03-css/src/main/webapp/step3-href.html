@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>외부 css 파일을 참조해서 적용하기</title>
+<!-- 외부에 있는 css 파일을 가져와서 사용하기 -->
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+</head>
+<body>
+
+<!-- 1행 2열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table >
+	<tr> 
+		<td>곱창</td><td>참치</td> 
+	</tr>
+</table>
+
+<br><br><br>
+<!-- 2행 2열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table >
+	<tr> <!-- table row -->
+		<td>글번호</td><td>작성자</td> <!-- table data -->
+	</tr>
+	<tr> <!-- table row -->
+		<td>1</td><td>지코</td> <!-- table data -->
+	</tr>
+</table>
+
+<br><br><br>
+<!-- 3행 3열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table >
+	<tr> <!-- table row -->
+		<td>글번호</td><td>작성자</td><td>글제목</td> <!-- table data -->
+	</tr>
+	<tr> <!-- table row -->
+		<td>1</td><td>지코</td><td>사람</td> <!-- table data -->
+	</tr>
+	<tr> <!-- table row -->
+		<td>2</td><td>근원</td><td>러브포엠</td> <!-- table data -->
+	</tr>
+</table>
+
+<!-- 
+		table의 td 속성 : colspan="2" -> 2열을 합친다
+		
+		    신청서
+		이름		아이유
+		나이		30세
+		
+ -->
+ <br><br><br>
+ <table >
+ 	<tr>
+ 		<td colspan="2" align="center">신청서</td>
+ 	</tr>
+ 	<tr>
+ 		<td>이름</td><td>아이유</td>
+ 	</tr>
+ 	<tr>
+ 		<td>나이</td><td>30세</td>
+ 	</tr>
+</table>
+
+<!--	
+		rowspan : 행을 합칠 때 사용하는 속성
+		
+			
+				아이유
+		신청서
+				30세
+
+ -->
+ <br><br><br>
+ <table >
+ 	<tr>
+ 		<td rowspan="2">신청서</td><td>아이유</td>
+ 	</tr>
+ 	<tr>
+ 		<td>30세</td>
+ 	</tr>
+</table>
+
+</body>
+</html>

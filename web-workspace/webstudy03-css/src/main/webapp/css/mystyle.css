@@ -1,0 +1,30 @@
+@charset "UTF-8";
+/* 다른 html 파일에서 이 css 파일을 참조해서 사용 가능 */
+table {
+	border-collapse: collapse;
+}
+
+table, td {
+	border: 1px solid black;
+}
+
+td {
+	padding: 10px;
+}
+/*div는 꽉 찬 영역, span은 텍스트만 있는 부분만 영역 차지*/
+div {
+	background-color: lime;
+}
+
+span {
+	background-color: gray;
+}
+
+.testDiv {
+	background-color: orange;	
+}
+
+#testSpan {
+	background-color: yellow;
+}
+

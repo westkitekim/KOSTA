@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step2 table css</title>
+<style type="text/css"> 
+/* 보더 라인 없애줌 */
+/*표 테두리선 굵기는 인터넷창 크기 조절로 해결됨*/
+	table{
+		border-collapse: collapse;
+		
+	}
+	table,td{
+		border: 1px solid black;
+	}
+	td{
+		padding: 10px;
+	}
+</style>
+</head>
+<body>
+<!-- 1행 2열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table >
+	<tr> <!-- table row -->
+		<td>곱창</td><td>참치</td> <!-- table data -->
+	</tr>
+</table>
+
+<br><br><br>
+<!-- 2행 2열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table >
+	<tr> <!-- table row -->
+		<td>글번호</td><td>작성자</td> <!-- table data -->
+	</tr>
+	<tr> <!-- table row -->
+		<td>1</td><td>지코</td> <!-- table data -->
+	</tr>
+</table>
+
+<br><br><br>
+<!-- 3행 3열 만들기 -->
+<!-- border : 경계 만들기 -->
+<table >
+	<tr> <!-- table row -->
+		<td>글번호</td><td>작성자</td><td>글제목</td> <!-- table data -->
+	</tr>
+	<tr> <!-- table row -->
+		<td>1</td><td>지코</td><td>사람</td> <!-- table data -->
+	</tr>
+	<tr> <!-- table row -->
+		<td>2</td><td>근원</td><td>러브포엠</td> <!-- table data -->
+	</tr>
+</table>
+
+<!-- 
+		table의 td 속성 : colspan="2" -> 2열을 합친다
+		
+		    신청서
+		이름		아이유
+		나이		30세
+		
+ -->
+ <br><br><br>
+ <table >
+ 	<tr>
+ 		<td colspan="2" align="center">신청서</td>
+ 	</tr>
+ 	<tr>
+ 		<td>이름</td><td>아이유</td>
+ 	</tr>
+ 	<tr>
+ 		<td>나이</td><td>30세</td>
+ 	</tr>
+</table>
+
+<!--	
+		rowspan : 행을 합칠 때 사용하는 속성
+		
+			
+				아이유
+		신청서
+				30세
+
+ -->
+ <br><br><br>
+ <table >
+ 	<tr>
+ 		<td rowspan="2">신청서</td><td>아이유</td>
+ 	</tr>
+ 	<tr>
+ 		<td>30세</td>
+ 	</tr>
+</table>
+</body>
+</html>
