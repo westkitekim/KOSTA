@@ -1,0 +1,76 @@
+**Servlet 기본 개념**
+
+◇ HTTP : HyperText Transfer Protocol
+◇ WAS : Web Application Server
+	    Web Server + Web Container의 기능 
+	    Web Server -> HTTP에 의거해 HTML을 서비스하는 서버 
+	    Web Container -> Servlet/JSP 실행환경을 제공
+◇ WAS 제품 중 Apache-Tomcat을 사용한다
+
+◇ Web 환경설정
+	0. WAS 설치
+	1. 포트설정 : apache-tomcat/conf/server.xml 에서 port를 변경 (이유 : 오라클 포트와 중복 방지)
+	2. 한글처리 ( get 방식 ) - URIEncoding = "UTF-8" 설정 추가 
+	3. 자동리로드 : apache-tomcat/conf/context.xml 에서 reloadable = "true" 설정 추가
+	   			 java class ( Servlet 포함해서 ) 변경시 자동 리로딩하여 개발의 편의성 증대
+	  
+// 채팅서비스시 22명의 접속자가 있으면 스레드는 22개 생성, 
+   그 submit 을 했을 때 응답 받았는데 내부적으로 그 스레드도 22개가 생성됨 서블릿을 이용한 객체는 한 개지만 스레드는 22개가 생성 
+   servlet 의 32p 참고 
+   
+   spring dispatcherservlet 참고 : 요청의 진입점으로 사용하는 아이 
+
+◇ Servlet : Java Web Programming 기술 
+ 			java class로 표현
+ 			Model2 Architecture(MVC) 에서 Controller의 역할을 한다 
+ 			( Spring Framework의 웹 기술 SpringMVC의 FrontController 인 DispatcherServlet도 서블릿이다 , 내부에서 중요한 역할을 하는 컴포넌트)
+
+◇ JSP : Java Server page
+		동적인 웹페이지 생성을 위한 기술 (검색결과의 포맷창은 같은데 결과물이 다른 것) 
+		HTML 구조 상에서 JSP tag(java code) 를 삽입 -> View 를 구현한는 측면에서 장점 //39p, <%%>가 JSP tag
+		Model2 Architecture( MVC ) 에서 View의 역할을 한다 //결론적으로 클라에게 가는 것은 HTML, CSS지만 안에서JSP??
+		
+  참고) MVC Design Pattern
+  	   Model : 비즈니스 로직과 데이터 엑세스 로직을 담당 (beans : 콩, 캡슐화, 서버측의 비즈니스 로직)
+  	   		   Java Beans ( or Java Component ) : Service, DAO, DTO, VO...
+  	   View : 클라이언트에게 동적인 화면을 제공 - JSP가 담당
+  	   Controller : 제어자의 역할, 클라이언트의 요청을 분석, 그에 대한 Model 연동 후 
+  	   				적절한 View를 선택해 응답하게 하는 역할 
+  	   				
+  	   JSP 는 Servlet이다(is a 관계) -> JSP 는 Web Container에 의해 java class로 생성되어 컴파일, 실행되고 
+  	   		 			   			 이 java class는 Servlet Interface의 하위, HttpServlet class의 자식 (JSP는 Servlet의 자식이다) 
+  	   					   			 
+  	   					   			 servlet 가보면 extends HttpServlet이 기본  
+  	   		   
+  	   
+servlet 만드는 디렉토리는 java class 라서 컴파일을 해야하기 때문에 디렉토리가 다르다. 
+html, css, js 는 컴파일과정이 필요가 없기 때문에 디렉토리가 다르다 
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
