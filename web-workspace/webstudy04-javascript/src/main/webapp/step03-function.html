@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript function</title>
+</head>
+<body>
+	<script type="text/javascript"> // 자바와 자바스크립트는 다르지만 자바의 장점을 모아 가져온게 자바스크립트 
+		//javascript 선언은 헤드 바디 상관없음
+		//javascript : 자바처럼 일괄적인 컴파일과정 없이 브라우저에서 interpret하기 때문에 
+		//데이터타입이 따로 없다, 실행 시에 타입을 인지하여 유동적으로 동작
+		//함수 정의
+		function hello() {
+			console.log("hello 함수실행");//함수 호출을 해야 출력된다! 호출하지 않으면 실행안됨
+			alert("hello 함수실행");
+		}
+		function bye(message){
+			alert(message);
+		}
+		function testParam(info, num){
+			//window 객체의 function alert() 함수
+			//window 는 생략가능
+			window.alert(info + " " + num);
+		}
+	</script>
+	javascript function(함수) 테스트
+	<!-- onclick 을 해야 함수 호출 -->
+	<input type="button" value="함수테스트1" onclick="hello()">
+	<!-- 매개변수 함수, 문자열은 '," 다 가능  -->
+	<input type="button" value="함수테스트2" onclick="bye('안녕')">
+	<input type="button" value="함수테스트3" onclick="testParam('감사', 7)">
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

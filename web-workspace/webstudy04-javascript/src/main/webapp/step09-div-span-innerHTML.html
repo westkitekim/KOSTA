@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>div span innerHTML 연습</title>
+<style type="text/css">
+	#testDiv{
+		background-color: orange;
+	}
+	#testSpan{
+		background-color: lime;
+	}
+	h3{
+		background-color: yellow;
+	}
+</style>
+
+<script type="text/javascript">
+	function changeDivInfo(){//입력양식은 value지만 내부의 값이므로 innerHTML 사용, innerHTML은 set한다는 것 
+		//div id testDiv 요소가 가지고 있는 html 정보를 alert으로 출력해본다 => innerHTML 을 GET
+		alert(document.getElementById("testDiv").innerHTML);//자바는 setter/getter가 있지만 자스는 속성값으로 직접 접근
+		//div id testDiv인 요소의 내부 html 정보를 다시 할당한다 => innerHTML 을 SET
+		document.getElementById("testDiv").innerHTML="<h3>즐거운 수요일 저녁입니다^^</h3>";
+	}
+	function changeSpanInfo(){//span에서 h태그가 잘 적용이 안 되는 경우가 있음 -css의 속성이 안된다 왜?
+		//span에서 일반적인 태그는 다 되지만
+		document.getElementById("testSpan").innerHTML="<font color=red>즐거운 저녁식사되세요</font>";
+	}
+	
+</script>
+</head>
+<body>
+<div id="testDiv">이 부분은 id testDiv로 지정된 div 영역입니다</div>
+<!-- 선택자 연습 -->
+<div>이 부분은 div 영역입니다</div>
+<!--span태그에 h 적용하기 위해 h태그 작성 -->
+<!-- span tag 내부에 h tag 를 적용할 수 없음, h tag의 영역은 div와 같이 가로화면을 100% 차지해서 span영역을 넘기 때문 
+	 font태그나 다른 것은 가능-->
+	
+<h3><span id="testSpan">이 부분은 id testSpan으로 지정된 span영역입니다</span></h3>
+
+<br><br>
+<!-- input의 버튼이나 button 의 버튼이나 같음 -->
+<input type="button" value="div정보변경" onclick="changeDivInfo()">
+<input type="button" value="span정보변경" onclick="changeSpanInfo()">
+<!-- 위 버튼을 클릭하면 즐거운 저녁식사되세요 로 변경된다 -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

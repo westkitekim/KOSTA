@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript dom 제어 연습(이동)</title>
+<script type="text/javascript">
+	/*
+	function moveTxt() {
+		let textComp=document.getElementById("ortTxt");
+		let result=window.confirm("이동하시겠습니까");
+		if(result)
+			
+		
+		let textComp2=document.getElementById("destTxt");
+		alert(textComp2.text);
+		
+	}
+	*/
+	
+	//강사님 풀이
+	function moveTxt(){
+		//컴포넌트 요소 받는걸 선언 let
+		/*
+		let orgComp=document.getElementById("orgTxt");
+		let destComp=document.getElementById("destTxt");
+		destComp.value=orgComp.value;//목적지에 원래값 할당
+		orgComp.value="";
+		*/
+		let orgComp=document.getElementById("orgTxt");
+		let destComp=document.getElementById("destTxt");
+		destComp.value=orgComp.value;//목적지에 원래값 할당
+		orgComp.value="";
+		orgComp.focus();//원래 칸에 커서 두기
+	}
+		function enterKey(){//엔터키만으로도 텍스트 이동
+			//alert("눌렀지?");
+			if(event.keyCode==13){//enter key 의 keyCode 가 13
+				//alert("엔터키 눌렀지?");
+				moveTxt();//실제로 이동시키는 함수 호출
+			}
+		}
+		
+	
+</script>
+</head>
+<body>
+<!-- autofocus : 웹 페이지가 로딩되자마자 해당 속성을 지정한 태그로 포커스가 이동  -->
+<input type="text" id="orgTxt" autofocus="autofocus" onkeyup="enterKey()">
+<input type="button" value="이동" onclick="moveTxt()">
+<input type="text" id="destTxt">
+<!-- 
+	
+		ortTxt id text 요소에 값을 입력한 수 이동 버튼을 누르면 
+		destTxt id text 요소에 값이 이동한다
+
+ -->
+</body>
+</html>

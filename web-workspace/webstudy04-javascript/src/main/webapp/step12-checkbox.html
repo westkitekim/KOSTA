@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step12-checkbox</title>
+	<script type="text/javascript">
+		/*
+		function testCheckbox(){
+			//자바스크립트는 문자열 초기화
+			let info="";
+			let ma=document.getElementsByName("menu");
+			//for loop 돌려서 info 에 누적시킨다
+			for(let i=0; i<ma.length; i++){
+				if(ma[i].checked)
+					info=info + ma[i].value;
+			}
+			if(info.length==0)
+				alert("영화를 선택하세요");
+			else
+				alert(info);
+			
+		}*/
+		//강사님 풀이
+		function testCheckbox(){
+			//문자열 담을 변수 초기화
+			let info="";
+			//byName 은 list로 배열로 반환이 된다. 
+			//return값은 HTMLCollection, elements의 요소들을 반환해준다
+			let ma=document.getElementsByName("movie");
+			//for loop 돌려서 info 에 누적시킨다
+			for(let i=0; i<ma.length; i++){
+				if(ma[i].checked)//체크한 상태이면
+					//js에서는 +=됨, sql에서는 안됨
+					//info 변수에 value(영화정보)를 누적한다
+					info += ma[i].value + " ";
+				
+			}
+			if(info=="")//info.length==0으로도 된다
+				alert("영화를 선택하세요");
+			else
+				alert(info + "선택하셨습니다");
+			
+		}
+	</script>
+</head>
+<body>
+<!-- 
+		문제> 영화 선택을 하나 이상 하지 않으면 영화를 선택하세요! alert
+			 영화를 선택하였으면 선택한 영화들의 정보를 하나의 alert으로 
+			 캐리비안의 해적 타운 선택하셨습니다!
+ -->
+	<form>
+		<input type="checkbox" name="movie" value="어바웃타임">어바웃타임<br>
+		<input type="checkbox" name="movie" value="캐리비안의 해적">캐리비안의 해적<br>
+		<input type="checkbox" name="movie" value="타운">타운<br>
+		<input type="button" value="선택" onclick="testCheckbox()">
+	</form>
+</body>
+</html>

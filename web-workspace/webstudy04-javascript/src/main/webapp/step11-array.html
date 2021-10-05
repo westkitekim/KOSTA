@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step11 javascript array</title>
+	<script type="text/javascript">
+		function testArray1(){
+			let arr=new Array(3);//공간을 3
+			arr[0]="소막창";
+			arr[1]="참치";
+			arr[2]="치킨";
+			//javascript 는 int 없으므로 변수만 바로 선언
+			for(let i=0;i<arr.length;i++){
+				alert(arr[i]);
+			}
+		}
+		
+		function testArray2(){
+			//document.getElementById(id);//id를 통해서 요소 하나만 가져온다. 
+			//getElementsByName() - HTMLcollection 으로 반환 list 형으로 저장
+			//					  - by name!!! 한 개의 값만 가져오는게 아니다. 
+			let m=document.getElementsByName("menu");	
+			//alert(m.length);// menu name의 checkbox 가 3개
+			//checkbox입력양식요소 객체의 속성 중에 checked 가 있다(체크상태이면 true)
+			//alert(m[0].checked);//닭갈비가 unchecked이면 false 반환, checked status 이면 true 반환
+			
+			//문제1: for 문을 이용해서 체크한 메뉴에 대해 메뉴명을 alert으로 각각 출력한다(체크한 항목마다 각각 팝업창으로 출력)
+			//for문 주의> java의 for(int i = 0; ...)이 아니라 
+			for(let i=0;i<m.length;i++){
+				//alert(m[i].value);
+				//alert(m[i].checked);//체크되어있는지 하나씩 검사
+				if(m[i].checked)
+					alert(m[i].value);
+			}
+			
+			
+		}//testArray2
+		//누르면 상태를 
+		function testCheckBox(){
+			let a=document.getElementsByName("agree");
+			a[0].checked=true;//체크상태로 만든다
+		}
+		
+	
+	</script>
+</head>
+<body>
+	<!-- 버튼도 버튼타입, 인풋타입 여러가지가 잇음 -->
+	<button type="button" onclick="testArray1()">배열테스트1</button>
+	<hr>
+	<form>
+		<!-- 데이터는 닭,~ 공~ 참~ 이지만 ~를 통해서 이미지로 대체 가능 -->
+		<!-- 체크박스의 name 은 다 같아야 한다.  -->
+		<!-- id는 한 파일(html) 내에서 한 개만 있어야 한다  -->
+		<input type="checkbox" name="menu" value="닭갈비">~닭갈비~<br>
+		<input type="checkbox" name="menu" value="공기밥">~공기밥~<br>
+		<input type="checkbox" name="menu" value="참이슬">~참이슬~<br>
+		<input type="button" value="주문" onclick="testArray2()">
+	</form>
+	<hr>
+	<input type="checkbox" name="agree" value="동의"> 동의
+	<input type="button" value="체크박스테스트" onclick="testCheckBox()">
+</body>
+</html>
+
+
+

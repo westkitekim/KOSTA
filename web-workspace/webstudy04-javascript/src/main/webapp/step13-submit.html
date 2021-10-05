@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step13 form submit</title>
+</head>
+<body>
+	<!-- 택배를 대체하는 의미로 web이 발생 - 의미차원에서만 -->
+	<!-- 클라쪽에서 정보를 입력하면 그 정보가 서버에 전달되어 서버는 그 정보에 응답하는 상호작용
+	form으로 제출하여 서버로 전달, 서버는 그 form을 통해 응답 -->
+	
+	<!--
+			form 속성
+			action : 요청 처리할 서버 url 
+			
+			요청 처리하는 것이 jsp/servlet
+			html, css 등은 클라측에서 움직이는 것 
+			jst/servlet은 서버측
+			
+			step13-server.jsp은 요청할 파일명
+			form에 action , submit 속성을 주어 요청한다 
+			
+			요청해서 응답받은게 첫 화면,
+			submit으로 다시 요청해서 노란색 배경이 뜬 것은 응답을 받은 것(강사님 도메인 링크 실습 참고) 
+			==> 요청과 응답이 2번 일어난 것이다. 
+	 -->
+	 
+	 <!-- 
+	 		submit 타이밍에 confirm
+	 		onsubmit : 제출시 이벤트
+	 		
+	 		onsubmit="return false" 하면 서버에 전송되지 않는다. 
+	  -->
+	<script type="text/javascript">
+		function confirmForm() {
+			//window 객체는 생략 가능 
+			//전송하려는 시점에 confirm 이벤트 먼저 실행
+			return confirm("전송하시겠습니까?");//confirm()은 확인누르면 true, 취소 누르면 false 반환
+										   //클라에세 선택권 제공
+		}
+	
+	</script>
+	
+	<!-- onsubmit="return false"인 경우에는 전송되지 않는다
+	 	 return false가 아닌 경우는 모두 전달 
+	 	 confirm 은 return 값이 bool
+	 	 
+	 	 onsubmit="return confirmForm()"인 경우 사용자의 선택에 따라 서버로의 요청이 결정된다.
+	 -->
+	<form action="step13-server.jsp" onsubmit="return confirmForm()">
+		별명 <input type="text" name="nick" required="required"><br>
+		나이 <input type="number" name="age" required="required"><br>
+		<!-- <input type="submit" value="전송"> -->
+
+		<!-- button에 별도의 type을 지정하지 않으면 submit이 기본이다, button을 사용할지, submit을 사용할 지 구분-->
+		<button>전송</button><!-- 아래 type=submit과 동일 -->
+		<!-- <button type="submit">전송</button> -->
+		
+		<!-- 
+			<input type="submit" value="전송">
+			<button>전송</button>
+			<button type="submit">전송</button>
+			
+			==> 위 3개의 코드는 같은 결과를 가진다.
+		 -->
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

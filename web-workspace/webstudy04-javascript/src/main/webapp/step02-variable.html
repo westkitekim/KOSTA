@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript 변수 선언</title>
+<script type="text/javascript"> // 자바스크립트 선언부,헤드 바디 중 어느곳에 선언돼도 상관없음
+// var 을 이용한 변수 선언
+// 중복 선언이 가능, 같은 변수명으로 중복 선언 가능
+	var a=1; //타입을 따로 명시하지 않음
+	var a=2;
+	alert(a);
+	
+// ECMA6(2015) 에서 추가된 let을 이용한 변수
+	let b=1;
+//	let b=2; // let은 중복선언이 불가, 같은 영역에서 동일한 변수명으로 let을 선언 
+	b=2;// 재할당은 가능(덮어쓰기 가능), alert 정상 수행
+	alert(b);// alert도 안됨 f12 console에서 에러 확인
+	
+//ECMA6(2015)에서 추가된 const를 이용한 상수 선언
+	const c=1;
+//	c=2;// 상수이므로 재할당 불가
+	alert(c);
+</script>
+</head>
+<body>
+	자바스크립트 변수 var, let, 상수 const 테스트
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+**javascript**
+
+Ecma 인터내셔널 : 정보 통신 표준을 제정하는 표준화 기구 
+
+Javascript : ECMAScript 표준을 준수하는 스크립트 언어 
+
+ECMAScript : 다양한 브라우저에서 일관성 있는 동작을 위한 스크립트 표준을 말한다 
+
+ES5(ECMA5, 2009) : 변수 선언 var -> 중복선언 가능 ( Function-level scope )
+ES6(ECMA6, 2015) : 변수 선언 추가 let -> 중복선언 불가 (Block-level scope ), 상수 선언 const 등이 추가 - 상수는 당연히 재할당 불가(자바의 지역변수와 유사, 선언된 실행 영역에서만 사용) 
+
+Javascript는 head나 body에 모두 선언이 가능하지만 
+관례적으로 head에 선언한다. 
+
+캐시비우기 : 개발자모드 에서 새로고침버튼에서 우클릭 - 강력새로고침
+
+DOM ( Document Object Model ) : HTML ( Web ) 문서를 제어하기 위한 프로그래밍 인터페이스(일종의 프로그래밍 interface)
+	 - 웹 브라우서에서 지원, html 문서 요소를 계층적으로 표현, 각 요소를 조작(CRUD)하기 위한 방법
+	 - 웹 문서를 제어하기 위한 사용법 제공 
+	 - DOM의 최상위인 window 객체는 생략가능
+
+	 
+사용자가 입력하는 양식의 데이터 가져올 때는 value
+이미지나 등등 정적페이지에 원래 있는 데이터 가져올 때는 innerHTML
+
+자동완성을 위해 tern 플러그인 설치했음 

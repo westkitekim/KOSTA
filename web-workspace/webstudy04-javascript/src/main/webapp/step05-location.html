@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- 특정조건일 때 이동 -->
+<title>javascript location</title>
+<script type="text/javascript">
+	function enterMovie(){
+		var result=confirm("성인이세요?");//윈도우 객체명 생략가능
+		if(result) {
+			//alert("성인영화 즐감하세요!");
+			//해당 url로 페이지가 이동된다
+			location.href="http://pororopark.com";
+			
+		}else {
+			alert("나이 더 먹고 성인되면 오세요");
+		}
+	}
+</script>
+</head>
+<body>
+<button type="button" onclick="enterMovie()">성인영화 입장하기</button>
+</body>
+</html>

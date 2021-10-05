@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form 입력양식 체크</title>
+<script type="text/javascript">
+	function checkForm() {//function 명 복붙해서 가져오는 습관
+		//1.이름이 공란인지 확인
+		//2.공백을 포함해서도 안됨
+		if (document.getElementById("username").value.trim() == "") {//trim()으로 여백제거
+			alert("이름을 입력하세요");
+			//isNaN()으로 숫자 여부를 체크
+			//아래 input 속성에서 type에 number 속성이 있지만 따로 체크해야할 경우나 타입 넘버 없는 경우 
+			//함수를 직접 명시하여 사용 
+		} else if (isNaN(document.getElementById("depositMoney").value)) {//숫자가 아닌 것들 체크
+			alert("입금액은 숫자로 입력하세요");
+
+		} else {
+			alert("입금완료");
+		}
+	}
+</script>
+</head>
+<body>
+	<!-- 원칙적으로 <form>작성 -->
+
+	<form>
+		이름 <input type="text" id="username"> 입금액 <input type="text"
+			id="depositMoney">
+		<button type="button" onclick="checkForm()">입금</button>
+		<!-- 버튼 타입 명시해야함 -->
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

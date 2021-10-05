@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DOM window confirm 함수</title>
+<script type="text/javascript">
+	function test(){
+		// confirm()은 반환값이 true/false인 확인창
+		// 확인 누르면 true, 취소 누르면 false를 반환
+		// window 객체명은 생략가능 
+		let result=window.confirm("순대 좋아하세요?");
+		//alert(result);
+		if(result) 
+			alert("저와 함께 순대를 먹어요");
+		else
+			alert("헤어져요");
+	}
+</script>
+</head>
+<body>
+<!-- 버튼 타입 명시해야함 -->
+<button type="button" onclick="test()">눌러보세요</button>
+</body>
+</html>

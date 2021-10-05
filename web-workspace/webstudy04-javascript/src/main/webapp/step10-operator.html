@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript 연산자</title>
+	<script type="text/javascript">
+		function test(){
+			//let 은 같은 실행영역 안에서 중복 선언 불가 (지역변수와 비슷)
+			//let : ecma6(2015), block level scope 변수 선언시 사용
+			let name1="즐추석";
+			let name2="즐추석 ";//사용자의 실수로 공백이 들어가는 경우
+							  //문제가 생길 수 있으니 console.log를 통해 에러코드를 확인하는 습관을 들인다.
+							  //or trim() 사용
+			console.log(name1.length);//3, length : 문자열의 길이
+			console.log(name2.length);//4
+			console.log(name1==name2);//문자열 비교 결과값 : false
+			console.log(name1==name2.trim());//결과값 : true, trim()으로 양 여백을 제거
+			//var : ecma5, function level scope, 기존에 사용하는 변수 선언
+			var age1=21;//정수형 data
+			var age2="21";//문자형 data
+			console.log(age1==age2);//true, 비교연산자 == : 강제 형변환, 내부적으로 숫자로 변환되어 비교
+			//타입 체크를 하여 엄격한 비교를 할 때는
+			console.log(age1===age2);//false, 비교연산자 === : 타입 체크, 엄격한 비교
+			var age3=age1+2;
+			console.log(age3);//23
+			var age4=age2+2;
+			console.log(age4);//212 age2는 문자열이므로 정상적인 연산이 불가
+			var age5=parseInt(age2)+2;//parseInt()로 정수형으로 변환하여 연산(java와 동일한 메서드)
+			console.log(age5);//23
+			
+			
+		}
+	</script>
+</head>
+<body>
+	<input type="button" value="확인" onclick="test()">
+</body>
+</html>
+
+
+
+
+
+
+
+
+

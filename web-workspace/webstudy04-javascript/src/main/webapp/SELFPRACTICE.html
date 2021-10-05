@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript">
+	//javascript 주석은 java 와 동일하게 사용 가능 
+	console.log("마지막 시간입니다");
+	//console.log는 웹 페이지에 바로 생성되는 것이 아니라 
+	//f12를 눌러서 chrome 개발자 도구에서 console 창에서 내용 확인이 가능
+	//system.out.println()과 동일하게 출력하는 역할 
+	console.log("hello javascript")
+	//alert가 뜨고 확인을 눌러야 콘솔창에 출력?! 
+	//가장 많이 사용하는 function 
+	alert("수고하셨습니다")
+	
+	//ECMA6(2015)에서는 let 변수를 많이 사용하며 중복 선언이 불가하다.
+	//하지만 ECMA5() 에서는 var 변수만을 사용했는데 중복 선언이 가능하다 
+	var a = 1;
+	var a = 5; //가능 
+	
+	let b = 1;
+	let b = 3;//불가, html 은 컴파일해주지 않기 때문에 에러가 나도 모른다. 
+	//f12 개발자 도구 console 창에서 확인 
+	
+	const c = 3;
+	c = 2;// 상수이므로 재할당 불가 
+	alert(c);
+	
+	function f1() {
+		alert("f1 함수 실행하였습니다")
+	}
+	function f2(message) {
+		alert(message);
+	}
+	function f3(info, studentId) {
+		window.alert(info + studentId);
+		//alert()함수는 window 객체의 함수,
+		//window 객체는 생략이 가능하다 
+	}
+	console.log(""\)
+	
+	</script>
+</head> 
+<!-- javascript는 head 나 body 둘 다 내부에서 사용이 가능하지만 
+관례적으로 head에 많이 사용한다  -->
+<body>
+
+	<input type = "button" value="함수테스트1" onclick="f1()">
+	<input type = "button" value="함수테스트1" onclick="f2(message)">
+	<!-- id는 html 한 페이지에서 1개만 사용 가능하다 , 중복 사용 불가 -->
+	<input type="text" id="test">
+</body>
+</html>
+
+
+
+<!-- css 오플소스 : bootstrap
+	 javascript 오픈 소스 : jquery
+	 바닐라 스크립트  -->

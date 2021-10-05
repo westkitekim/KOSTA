@@ -1,0 +1,50 @@
+<!--open with - generic  -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript DOM document 객체활용(요소에 접근해보기)</title>
+<script type="text/javascript">
+	function testDom(){
+		// 입력양식 text 요소에 접근해서 사용자가 입력한 아이디 정보를 확인해본다
+		let textComp=document.getElementById("userId");
+		alert(textComp.value);//value를 get, form 입력양식 요소의 입력값에 접근할 때는 value 라는 속성을 이용, 자바와같이 setter/getter가 없음 value가 get과 비슷
+		textComp.value="";//value에 공란을 set
+		
+	}
+	function testDom2() {
+		//let nameComp=document.productForm.productName;//document.폼이름.요소이름
+		//id를 통해 접근
+		let nameComp=document.getElementById("pname");
+		//console.log(nameComp.value);
+		alert(nameComp.value);
+		nameComp.value="";
+	}
+</script>
+</head>
+<body>
+<!-- 객체를 만들때 form 사용 
+	 클라의 정보를 알기위해 입력할 큰 틀을 만드는데 사용됨
+	 입력된 데이터를 한 번에 서버로 전송
+-->
+<!-- id 로 접근 -->
+<form>
+회원아이디 <input type="text" name="userId" id="userId"><!-- name 요소는 서버에 전송시에 필요 -->
+<input type="button" value="테스트" onclick="testDom()">
+</form>
+<!-- 수평선 삽입 -->
+<hr>
+<form name="productForm"><!-- form 에서 name 명시 -->
+상품명 <input type="text" name="productName" id="pname">
+<input type="button" value="테스트2" onclick="testDom2()">
+</form>
+
+</body>
+</html>
+
+
+
+
+
+
+
