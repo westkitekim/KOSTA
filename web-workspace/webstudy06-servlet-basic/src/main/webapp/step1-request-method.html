@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step1</title>
+</head>
+<body>
+	<h3>step1-request-method : get 방식 post 방식 테스트</h3>
+	<!-- 
+			form tag에서 별도의 method 지정이 없으면 기본이 get 방식 요청
+			action : 요청을 처리할 서버 프로그램 url을 명시 
+			서블릿일 경우 web.xml에 명시된 url-pattern 정보를 명시한다
+			
+			method = get 을 명시(or not)해서 서버에 요청하면 
+			해당 서블릿의 doGet() 메서드가 시행되어 응답한 정보를 서비스 받는다
+			
+			placeholder : 도움말 , 메세지 박스 
+			요청시 url 에 보낸 data 가 보인다(post는 안보임 은닉되어 전송)
+			
+	 -->
+	<form action="BasicServlet" method="get">
+		<input type="text" name="message" placeholder="메세지를 입력" required="required">
+		<input type="submit" value="get 요청방식 테스트">
+	</form>
+	<br><br>
+	<!-- 
+			method = "post" 는 해당 서블릿의 doPost 메서드가 실행
+			만약 doPost 메서드가 구현되어 있지 않으면
+			405 error 메세지(허용되지 않는 메서드)로 응답된다
+			
+			405 : 요청한 메서드에 대해 지원이 안될 때
+			
+			action 속성은 web.xml의 url 패턴에 관한 것, 
+			메서드 : 요청 시 어떤 방식으로 요청할 것인가를 지정 
+			
+			
+	 -->
+	<form action="BasicServlet" method="post">
+		<input type="text" name="message" placeholder="메세지를 입력" required="required">
+		<input type="submit" value="post 요청방식 테스트">
+	</form>
+	<br><br>
+	<!-- get 인지 post 인지 알아봐야함 , 서블릿 패턴이 아니라 url 지정은 a tag -->
+	<!-- a tag 를 이용한 링크 요청은 http request get 방식 요청이어서 서블릿의 doGet 메서드가 실행되어 응답된다 -->
+	<a href="BasicServlet">BasicServlet</a>
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

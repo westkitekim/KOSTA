@@ -1,0 +1,112 @@
+**Servlet 기본 개념**
+
+▣ HTTP : HyperText Transfer Protocol
+▣ WAS : Web Application Server
+	    Web Server + Web Container의 기능 
+	    Web Server -> HTTP에 의거해 HTML을 서비스하는 서버 
+	    Web Container -> Servlet/JSP 실행환경을 제공
+	    
+	    Web Server 는 ㅗhtml
+▣ WAS 제품 중 Apache-Tomcat을 사용한다
+
+▣ Web 환경설정
+	0. WAS 설치
+	1. 포트설정 : apache-tomcat/conf/server.xml 에서 port를 변경 (이유 : 오라클 포트와 중복 방지)
+	2. 한글처리 ( get 방식 ) - URIEncoding = "UTF-8" 설정 추가 
+	3. 자동리로드 : apache-tomcat/conf/context.xml 에서 reloadable = "true" 설정 추가
+	   			 java class ( Servlet 포함해서 ) 변경시 자동 리로딩하여 개발의 편의성 증대
+	  
+// 채팅서비스시 22명의 접속자가 있으면 스레드는 22개 생성, 
+   그 submit 을 했을 때 응답 받았는데 내부적으로 그 스레드도 22개가 생성됨 서블릿을 이용한 객체는 한 개지만 스레드는 22개가 생성 
+   servlet 의 32p 참고 
+   
+   spring dispatcherservlet 참고 : 요청의 진입점으로 사용하는 아이 
+
+▣ Servlet : Java Web Programming 기술 
+ 			java class로 표현
+ 			Model2 Architecture(MVC) 에서 Controller의 역할을 한다 
+ 			( Spring Framework의 웹 기술 SpringMVC의 FrontController 인 DispatcherServlet도 서블릿이다 , 내부에서 중요한 역할을 하는 컴포넌트)
+
+▣ JSP : Java Server page
+		동적인 웹페이지 생성을 위한 기술 (검색결과의 포맷창은 같은데 결과물이 다른 것) 
+		HTML 구조 상에서 JSP tag(java code) 를 삽입 -> View 를 구현한는 측면에서 장점 //39p, <%%>가 JSP tag
+		Model2 Architecture( MVC ) 에서 View의 역할을 한다 //결론적으로 클라에게 가는 것은 HTML, CSS지만 안에서JSP??
+		
+  참고) MVC Design Pattern
+  	   Model : 비즈니스 로직과 데이터 엑세스 로직을 담당 (beans : 콩, 캡슐화, 서버측의 비즈니스 로직)
+  	   		   Java Beans ( or Java Component ) : Service, DAO, DTO, VO...
+  	   View : 클라이언트에게 동적인 화면을 제공 - JSP가 담당
+  	   Controller : 제어자의 역할, 클라이언트의 요청을 분석, 그에 대한 Model 연동 후 
+  	   				적절한 View를 선택해 응답하게 하는 역할 
+  	   				
+  	   JSP 는 Servlet이다(is a 관계) -> JSP 는 Web Container에 의해 java class로 생성되어 컴파일, 실행되고 
+  	   		 			   			 이 java class는 Servlet Interface의 하위, HttpServlet class의 자식 (JSP는 Servlet의 자식이다) 
+  	   					   			 
+  	   					   			 servlet 가보면 extends HttpServlet이 기본  
+  	   		   
+  	   
+servlet 만드는 디렉토리는 java class 라서 컴파일을 해야하기 때문에 디렉토리가 다르다. 
+html, css, js 는 컴파일과정이 필요가 없기 때문에 디렉토리가 다르다 
+		
+		
+*****************************************************************************************************************************
+	webstudy06-servlet-basic
+	
+- 실행은 html 먼저, 그다음 servlet
+
+▣ Deployment Descriptor (DD) : WEB-INF/web.xml -> 웹어플리케이션의 설정 정보를 기술
+  배포 		 기술서 			   WAS 는 웹어플리케이션 실행 첫 시점에 DD(web.xml) 정보를 메모리에 로드하여(어떤 서블릿이 있고 세션 주기 등등 정보를 기술, 메모리를 로드하여 여기에 의거하여 실행)
+  							   서비스에 반영한다
+  
+  
+▣ web.xml 의 서블릿 설정 부분
+-----------------------------------
+ <servlet>
+  	<servlet-name>basic</servlet-name> <!-- 서블릿 별칭, 개발자 마음대로 지정 -->
+  	<servlet-class>step1.BasicServlet</servlet-class> <!-- 패키지명.클래스명(물리적인 위치) step1.BasicServlet의 별칭이 basic-->
+ </servlet>
+ <servlet-mapping>
+  	<servlet-name>basic</servlet-name> <!-- 위 서블릿을 지칭, 별칭 동일해야 함 -->
+  	<url-pattern>/bs</url-pattern> <!-- 클라이언트가 해당 서블릿을 실행시켜 서비스 받기 위한 url, 개발자맘으로 변경 가능, 원래는 클래스명ㅣ인 BasicServlet-->
+ </servlet-mapping>
+-----------------------------------
+--> 위 부분을 WAS 가 처음 실행시 쭉 메모리에 로드하고 클라가 해당부분을 찾으면 반환
+
+
+▣ Http Request Method ( 요청 방식 )
+	1. get 방식 : 정보 조회용, url 상에 전송 정보가 노출됨, 전송 데이터 용량에 제한(db의 select) ex. 파일 업로드, 등
+	2. post 방식 : 정보 전달용(주로 서버 자원의 데이터 변경시 사용), url 상에 전송 정보가 노출되지 않고 
+				  http request body 부분에 저장되어 전송(별도의 한글처리가 필요),(db 의 insert,delete,update)
+				  전송 데이터 용량 제한 없음
+				  
+				  ex. 로그인
+
+
+▣ client ( html form ) 과 server ( servlet ) 연동													Server
+
+  client
+  <form action="url pattern" method="get">														url pattern에 해당하는 서블릿의 doGet 메서드가 실행	
+  <input type="text" name="food">																클라이언트가 보낸 정보를 입력받기 위해 
+  <input type="submit" value="주문">																request.getParameter(name) 즉 request.getParameter("food")과 같이 입력받는다
+  </form>
+  
+  - submit 을 누르면 아래와 같은 형식으로 전송된다(물음표로 구분, &로 여러 개)
+  http://localhost:8888/webstudy06-servlet-basic/url-pattern?name=value&name=value
+  
+  웹컨텍스트명(웹어플리케이션명) = 프로젝트명(webstudy06-servlet-basic)
+
+▣ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

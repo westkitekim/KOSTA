@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step4 form radio 연동 테스트</title>
+</head>
+<body>
+	<form method="get" action="RadioServlet">
+		<input type="radio" name="gender" value="male" required="required">남 <br>
+		<input type="radio" name="gender" value="female" required="required">여 <br>
+		<button>전송</button> <!-- type을 별도로 명시하지 않으면 button tag의 기본 type 속성은 submit이다 -->
+	
+	</form>
+	<!-- 
+			html 이 변경되면 html 먼저 실행하고 수행 
+			
+			라디오 버튼의 남 을 선택하고 전송하면 male이 출력
+			라디오 버튼의 여 를 선택하고 전송하면 female이 출력(각각의 value값)
+	
+	 -->
+</body>
+</html>

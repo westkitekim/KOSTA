@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step2 request get 방식테스트</title>
+</head>
+<body>
+	<!-- action : form 데이터를 서버로 보낼때 데이터가 도착할 url -->
+	<form method="get" action="GetTestServlet">
+		<input type="text" name="food" placeholder="점심메뉴" required="required">
+		<input type="number" name="count" placeholder="수량" required="required">
+		<input type="submit" value="전송">
+		<!-- name 과 value로 넘어간다 ?food=텍스트의 내용 get 방식 -> ?name= value -->
+		
+	</form>
+	
+	<!-- 
+			점심메뉴와 수량을 입력한 후 전송을 누르면 
+			client가 보낸 메뉴 정보 : 낙곱새 3인분
+			
+			실행은 html 부터 다음 servlet
+	
+	 -->
+	<hr>
+	<!-- 
+		 	아래와 같이 a tag를 이용한 링크로 데이터를 전송할 수 있다 
+		 	링크 또한 get 요청방식이다	
+	-->
+	<a href="GetTestServlet?food=김밥&count=7">get 방식 테스트</a>
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
