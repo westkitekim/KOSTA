@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* padding : 여백 
+	css 에서 반영이 잘 안되면 f12에서 강력새로고침 
+*/
+	table{
+		
+		border-collapse: collapse;
+	}
+	table,td,th{
+		border: 1px solid black;
+	}
+	td,th{
+		padding: 10px;
+		/* 생략가능 width: 100px; */
+		text-align: center;
+	}
