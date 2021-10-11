@@ -1,0 +1,718 @@
+**Servlet 기본 개념**
+
+▣ HTTP : HyperText Transfer Protocol
+▣ WAS : Web Application Server
+	    Web Server + Web Container의 기능 
+	    Web Server -> HTTP에 의거해 HTML을 서비스하는 서버 
+	    Web Container -> Servlet/JSP 실행환경을 제공
+	    
+	    //Web Server 는 html기반으로 
+▣ WAS 제품 중 Apache-Tomcat을 사용한다
+
+▣ Web 환경설정
+	0. WAS 설치
+	1. 포트설정 : apache-tomcat/conf/server.xml 에서 port를 변경 (이유 : 오라클 포트와 중복 방지)
+	2. 한글처리 ( get 방식 ) - URIEncoding = "UTF-8" 설정 추가 
+	3. 자동리로드 : apache-tomcat/conf/context.xml 에서 reloadable = "true" 설정 추가
+	   			 java class ( Servlet 포함해서 ) 변경시 자동 리로딩하여 개발의 편의성 증대
+	  
+// 채팅서비스시 22명의 접속자가 있으면 스레드는 22개 생성, 
+   그 submit 을 했을 때 응답 받았는데 내부적으로 그 스레드도 22개가 생성됨 서블릿을 이용한 객체는 한 개지만 스레드는 22개가 생성 
+   servlet 의 32p 참고 
+   
+   spring dispatcherservlet 참고 : 요청의 진입점으로 사용하는 아이 
+
+▣ Servlet : Java Web Programming 기술 
+ 			java class로 표현
+ 			Model2 Architecture(MVC) 에서 Controller의 역할을 한다 
+ 			( Spring Framework의 웹 기술 SpringMVC의 FrontController 인 DispatcherServlet도 서블릿이다 , 내부에서 중요한 역할을 하는 컴포넌트)
+
+▣ JSP : Java Server page
+		동적인 웹페이지 생성을 위한 기술 (검색결과의 포맷창은 같은데 결과물이 다른 것) 
+		HTML 구조 상에서 JSP tag(java code) 를 삽입 -> View 를 구현한는 측면에서 장점 //39p, <%%>가 JSP tag
+		Model2 Architecture( MVC ) 에서 View의 역할을 한다 //결론적으로 클라에게 가는 것은 HTML, CSS지만 안에서JSP??
+		
+  참고) MVC Design Pattern
+  	   Model : 비즈니스 로직과 데이터 엑세스 로직을 담당 (beans : 콩, 캡슐화, 서버측의 비즈니스 로직)
+  	   		   Java Beans ( or Java Component ) : Service, DAO, DTO, VO...
+  	   View : 클라이언트에게 동적인 화면을 제공 - JSP가 담당
+  	   Controller : 제어자의 역할, 클라이언트의 요청을 분석, 그에 대한 Model 연동 후 
+  	   				적절한 View를 선택해 응답하게 하는 역할 
+  	   				
+  	   JSP 는 Servlet이다(is a 관계) -> JSP 는 Web Container에 의해 java class로 생성되어 컴파일, 실행되고 
+  	   		 			   			 이 java class는 Servlet Interface의 하위, HttpServlet class의 자식 (JSP는 Servlet의 자식이다) 
+  	   					   			 
+  	   					   			 servlet 가보면 extends HttpServlet이 기본  
+  	   		   
+  	   
+servlet 만드는 디렉토리는 java class 라서 컴파일을 해야하기 때문에 디렉토리가 다르다. 
+html, css, js 는 컴파일과정이 필요가 없기 때문에 디렉토리가 다르다 
+		
+		
+*****************************************************************************************************************************
+●●●●● webstudy06-servlet-basic ●●●●●
+	
+- 실행은 html 먼저, 그다음 servlet
+
+▣ Deployment Descriptor (DD) : WEB-INF/web.xml -> 웹어플리케이션의 설정 정보를 기술
+  배포 		 기술서 			   WAS 는 웹어플리케이션 실행 첫 시점에 DD(web.xml) 정보를 메모리에 로드하여(어떤 서블릿이 있고 세션 주기 등등 정보를 기술, 메모리를 로드하여 여기에 의거하여 실행)
+  							   서비스에 반영한다
+  
+  
+▣ web.xml 의 서블릿 설정 부분
+-----------------------------------
+ <servlet>
+  	<servlet-name>basic</servlet-name> <!-- 서블릿 별칭, 개발자 마음대로 지정 -->
+  	<servlet-class>step1.BasicServlet</servlet-class> <!-- 패키지명.클래스명(물리적인 위치) step1.BasicServlet의 별칭이 basic-->
+ </servlet>
+ <servlet-mapping>
+  	<servlet-name>basic</servlet-name> <!-- 위 서블릿을 지칭, 별칭 동일해야 함 -->
+  	<url-pattern>/bs</url-pattern> <!-- 클라이언트가 해당 서블릿을 실행시켜 서비스 받기 위한 url, 개발자맘으로 변경 가능, 원래는 클래스명ㅣ인 BasicServlet-->
+ </servlet-mapping>
+-----------------------------------
+--> 위 부분을 WAS 가 처음 실행시 쭉 메모리에 로드하고 클라가 해당부분을 찾으면 반환
+
+
+▣ Http Request Method ( 요청 방식 )
+	1. get 방식 : 정보 조회용, url 상에 전송 정보가 노출됨, 전송 데이터 용량에 제한(db의 select) ex. 파일 업로드, 등
+	2. post 방식 : 정보 전달용(주로 서버 자원의 데이터 변경시 사용), url 상에 전송 정보가 노출되지 않고 
+				  http request body 부분에 저장되어 전송(-> 별도의 한글처리가 필요),(db 의 insert,delete,update)
+				  전송 데이터 용량 제한 없음
+				  
+				  ex. 로그인
+
+
+▣ client ( html form ) 과 server ( servlet ) 연동													Server
+
+  client
+  <form action="url pattern" method="get">														url pattern에 해당하는 서블릿의 doGet 메서드가 실행	
+  <input type="text" name="food">																클라이언트가 보낸 정보를 입력받기 위해 
+  <input type="submit" value="주문">																request.getParameter(name) 즉 request.getParameter("food")과 같이 입력받는다
+  </form>
+  
+  - submit 을 누르면 아래와 같은 형식으로 전송된다(물음표로 구분, &로 여러 개) => query string
+  http://localhost:8888/webstudy06-servlet-basic/url-pattern?name=value&name=value
+  
+  웹컨텍스트명(웹어플리케이션명) = 프로젝트명(webstudy06-servlet-basic)
+
+servlet, jsp는 클라에 도달안함//
+
+****************************************************************************************************************************************************************************
+●●●●● webstudy07-servlet-LifeCycle ●●●●●
+
+▣ Web Architecture(설계양식) - 3 tier(3 계층)
+													WAS(Web Server + Web Container)(미들웨어)									Database
+	client - browser
+	http 프로토콜에 의거해 								Http 프로토콜에 의거해 
+	서버로 요청 ( Http Request 전달 )					Http Request 를 분석
+													적절한 Http Response 로 응답
+	Http Response 메세지를 입력받아 
+	html, javascript, css를 해석해서 
+	브라우저 상에서 표현
+	
+▣ 서블릿 계층구조 ( Servlet Hierarchy ) : servlet-hierarchy.jpg 참조
+	<<interface>> - 표준을 명세
+		Servlet : 서블릿 인터페이스는 모든 서블릿(jsp 포함, jsp is a servlet)이 implements 해야 하는 메서드(abstract method)를 정의한 인터페이스
+		  		  모든 서블릿과 jsp의 최상위 인터페이스이다. 
+		  
+	<<abstract>> - 구현된 멤버를 물려준다
+		GenericServlet : Servlet interface를 implements 하는 abstract class
+						 프로토콜에 독립적인 abstract class
+						 일반적으로 서블릿(서버프로그램)이 가져야 하는 메서드를 구현해 자식 클래스에게 물려주고 
+						 자식 차원에서 구현해야 하는 abstract method ( service 메서드 ) 를 정의하고 있다 
+
+	<<abstract>>	
+		HttpServlet : GenericServlet을 상속받는 클래스 
+					  Http Protocol에 특화된 서비스를 구현하는 데 유용한 기능을 제공한다 
+					  일반적으로 web application 개발시에는 이 클래스를 상속받아 새발한다 (모든 jsp 는 HttpServlet 을 상속받는다)
+					  
+					  
+
+
+java ee는 추상화시켜 설계를 해놓으면 다형성에 기여한다 - 웹 프로그래밍에서도 서블릿 인터페이스 중심으로 설계되어있는 방식에 따라 개발하기 때문에 
+서블릿에서 제공해주는 인터페이스 하나의 방식으로 다양한 WAS에서 만든 프로그램이 실행될 수 있음
+ 
+▣ Servlet Interface ( Servlet, ServeletRequest, ServletResponse, HttpSession .. ) 들을 중심으로 
+  Servlet API ( Application Programming Interface ) 를 정의하고
+  실제 구현 클래스 ( 구현체 : implementation ) 들은 개별 WAS 제품군에서 정의 
+  이러한 설계의 장점은 다형성 적용에 있다. 
+  일반 웹어플리케이션 개발 진영에서는 Servlet API 즉 인터페이스를 보고 개발하고 
+  실제 동작은 개별 WAS 제품군에서 구현한 클래스가 동작하는 방식으로 
+  WAS 가 변경되더라도 특정한 프로그램의 수정없이 배포되어 실행될 수 있다는 장점이 있다
+  => Web Application 과 개별 WAS 제품군과의 결합도를 낮추어 유지보수성을 향상시킬 수 있다는 의미 
+  
+  
+▣ Servlet LifeCycle
+  Servlet / JSP 계층구조의 최상위 인터페이스 Servlet 의 LifeCycle abstract method
+  init(), service(), destroy()
+  
+  서블릿의 라이프 사이클 관리하는 주체는 WAS( Web Container ) 이다
+  -> web.xml(Deployment Descriptor : 웹어플리케이션 설정정보)를 로딩하고 서블릿 객체를 생성하고
+  	 init(), service() -> doGet() or doPost(), destroy() 를 실행하는 주체는 Web Container(Servlet Container)이다
+  	 
+  	 init() : 해당 서블릿의 초기화 작업을 담당, 서블릿마다 한 번만 실행
+  	 service() : 해당 서블릿이 클라이언트에게 서비스하기 위해 실행 ( 내부적으로 doGet() or doPost() 로 연결 ) 
+  	 			 클라이언트 요청시마다 매번 실행
+  	 destroy() : 해당 서블릿이 서비스 종료되기 직전에 호출 ( WAS를 중지할 때 실행 ) - 필요시 오버라이드 (ex. 객체 직렬화 통한 백업작업들, 다음에 다시 시작할 때 init()하여 불러오기 , school project 에서 죽기 전에 정보 저장)
+--------------------------------------------------------------------------------------------------------------------------
+										
+										
+										WAS(Web Server + Web Container)
+	
+	client browser -- request -->		is loaded? -- no --> class loading 
+				  <-- response --			|					   |
+				  							|				 객체 생성 (서블릿 생성)
+				  							|					   |
+				  							|				 init(ServletConfig) 호출(모든 서블릿과 jsp에 있음) (Servlet api 참조)
+				  							|				 	   | 
+				  						   yes   ------>	 service(request, response) --> doGet() or doPost()
+				  							
+				  				
+															 destroy() : 해당 서블릿이 서비스 종료 (WAS 종료시) 되기 직전에 호출 
+
+
+
+
+	* is loaded? : 한번이라도 실행된 적이 있는가? 
+	* 서블릿 객체는 1개이기 때문에 메모리 부담이 적어진다. 
+	
+	* LifeCycle을 관리한다는 말? : 생명주기에서 중요한 3가지 : init(), service() destroy() 가 있는데 모든 서블릿과 jsp 과 이 3가지 메서드를 공유하고 있다 
+							   그 메서드가 container
+
+---------------------------------------------------------------------------------------------------------------------------
+
+  ex) LifeCycleServlet 에 클라이언트가 10명이 접속해서 서비스를 받았다 
+  	  
+  	  LifeCycleServlet 객체는 몇 개 생성? : 1개(멀티스레딩으로 서비스된다)
+  	  init() 몇 번 실행? : 1번
+	  service() 몇 번 실행? : 10번
+	  destroy() 몇 번 실행? : 서비스 종료(was 중지) 직전 1번 실행(문제 주의, 서비스를 받았기 때문에 destroy() 실행 안됨)
+	  
+	  
+	  
+	  
+▣ ServletConfig
+	개별 서블릿의 설정 정보를 저장하는 객체
+	서블릿 당 하나 생성
+	Web Container(Servlet Container) 에 의해 init 호출시점에 ServletConfig 객체가 주입된다 
+	초기 파라미터 ( init-param ), ServletContext 객체 주소값 등이 SerletConfig에 저장되어 전달된다 
+	
+	ex) 사원(Servlet) 당 사원증(ServletConfig)
+	
+	web.xml에서 contextConfigLocation은 정해진 이름 
+	
+▣ ServletContext
+	웹어플리케이션 내의 모든 서블릿과 jsp가 공유하는 자원 ( 필요시 정보를 set/get 할 수 있다 ) 
+	웹어플리케이션 당 하나 생성
+	웹어플리케이션 시작 시점에 생성되고 종료 직전에 소멸된다 (웹어플리케이션 자체의 환경정보)
+	
+	ex) 회사(web application) 사내 인트라넷(ServletContext) 
+
+	ex) 로그인 인증을 통한 인가작업, 보안작업 이 필요할 때 사용(ServletContext)
+		ServletContext에 접근하기 위해  ServletConfig가 있어야 함
+		
+
+***************************************************************************
+
+▣ web.xml 의 load-on-startup 은 WAS 실행 시점에 해당 서블릿 객체 생성 및 init 실행해서  
+  미리 초기화 작업을 해두기 위한 코드이다.
+  
+  이것을 명시하는 이유는 최초 해당 서블릿을 서비스 받기 위해 접속하는 클라이언트에게 
+  신속하게 서비스하기 위해서이다.
+  
+  번호가 적은 순서대로 먼저 실행됨
+
+  <servlet>
+    <description></description>
+    <display-name>LifeCycleServlet</display-name>
+    <servlet-name>LifeCycleServlet</servlet-name>
+    <servlet-class>step1.LifeCycleServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  
+  - 확인 방법 : 서블릿을 실행시키는 것이 아니라 프로젝트 자체를 실행시켜 LifeCycleServlet 객체생성, init() 실행 문구가 출력되는 것을 확인한다
+  			 -> 어플리케이션이 실행될 때(=WAS가 실행될 때) 앞의 과정이 미리 수행됨, 다음에 처음 나오는 서블릿은 service()만 수행된다 
+  			 
+  - 어노테이션 방식 : @WebServlet(urlPatterns = "/LifeCycleServlet", loadOnStartup = 1)
+  			 
+
+*************************************************************************************************************************************
+2021-09-27
+●●●●● webstudy08-ServletConfig-ServletContext ●●●●●
+
+------------------------------------------------------------------------------------------
+note> 
+
+xml 파일이 수정되면 다시 실행해야함 
+contextConfigLocation dispatcher-servlet.xml : 잘 만들어진 프레임워크 사용시 - contextConfigLocation
+
+Servlet confgi level 은 개별 Servlet 태그 안에서 
+ServletContext는 전역 영역이기 때문에 전체 범위에 작성 
+
+listener는 무엇인가 : ServletContext Life Cycle 의 변화가 생길때마다 annotation을 받는 것 
+listener 생성 파일이 따로 존재한다 
+
+Spring Security Xml Config - 구글링
+-------------------------------------------------------------------------------------------
+	
+▣ ServletContextListener : 웹 어플리케이션 LifeCycle event 발생시 ( 웹 어플리케이션 시작 이벤트, 종료 이벤트 ) 실행되는 메서드를 가진 Interface
+						   웹 어플리케이션 차원에서 시작 시점에 필요한 초기화 작업과 종료 시점에 필요한 백업, 로깅(logging) 작업 등을 처리하는데 용이하다
+						   
+						   - contextInitialized(event) : 웹 어플리케이션 시작 시점에 호출되어 실행되는 메서드 
+						   - contextDestroyed(event) : 웹 어플리케이션 종료 직전에 호출되어 실행되는 메서드 
+						   
+						   어플리케이션 전역에서 쓰이는 초기화 작업들을 명시하고 싶을 때 ServletContextListener Interface를 implements 하여 
+						   해당 Interface의 method를 overriding하여 사용한다
+						   
+						   웹어플리케이션이 처음 시작이 될 때 전역적으로 필요한 작업들을 초기화 할 때 ServletContextListener의 initialized메서드 실행한다 
+						   이것은 나중에 spring Security 를 기본 세팅하는데 사용된다
+
+***********************************************************************************************************************************
+●●●●● webstudy09-servlet-Annotation-Config ●●●●●
+
+실제 실행시에 반영되는 것
+▣ Servlet Annotation : 서블릿 3.0 이상에서 지원하는 기술
+					   @WebServlet(url-pattern) -> 이 어노테이션을 서블릿 상단부에 명시하면 기존 web.xml의 url-pattern 설정과 동일한 효과를 가진다.(xml에 별도로 기록할 필요 없음)
+					   
+					   ▷ 어노테이션 ( @ ) : 의미있는 주석, 컴파일 및 런타임 시점에 시스템에 영향을 주기 위한 의미있는 주석이다.
+					   				   설정정보에서 많이 쓰임
+					   
+					   ▷ 설정 정보 ( 메타 데이터 ) 
+					   	1) XML : 소스코드와 설정의 분리
+					   	2) Annotation : 소스코드 상에 설정정보를 기술 
+					   	
+					   	- 일반적으로 전역적인 설정은 xml에 기술, 설계시 확정되는 부분은 Annotation으로 설정 (선택적)
+					   	- xml 은 전역(ServletContext)일 때 , annotation은 서블릿 단위일 때 주로 많이 사용한다. 
+					   	
+					   ▷ 어노테이션 기반 서블릿 설정의 예 ( xml 기반 서블릿 설정 webstudy07의 step1 에 있다 )
+						 웹 어플리케이션 실행시점에 미리 해당 서블릿을 초기화 하도록 web.xml 의 load-on-startup 태그 설정을 어노테이션 방식으로 설정해본다
+						 
+						 @WebServlet(urlPatterns = "/LifeCycleServlet", loadOnStartup = 1)
+						 public class LifeCycleServlet extends HttpServlet {	
+					  
+
+***********************************************************************************************************************************************
+●●●●● webstudy10-Session-Cookie ●●●●●
+
+▣ Session 과 Cookie
+
+	▷ HTTP 특성 : 무연결,무상태 stateless, 요청/응답 ( 사용자 상태 정보를 유지하지 않는다 ) - 모든 정보를 유지하면 서버에 부담이 가중 
+
+	▷ 세션 관리 : 사용자 정보를 일정 조건동안 유지 , 통상적인 세션은 기간이라는 뜻	
+
+	▷ Cookie : - 사용자 상태 정보를 클라이언트 측에 저장(ex. 팝업창 오늘은 그만보기-상대적으로 많이 중요하지 않음, 사용자가 조작 가능)
+		 	   - 저장용량의 제한 ( 4kb ) 
+		 	   - 데이터 타입은 문자열로 한정 및 공백 불가
+		 	   - Cookie 유효 시간을 별도로 설정하지 않으면 ★브라우저 실행시에만 유효★ (브라우저 끄면 쿠키 사라짐)
+		 	   - Cookie 유효 시간을 설정하면 그 유효 시간 내에서만 Cookie를 사용할 수 있다 
+		 	
+		 	
+	▷ <쿠키 생성과정>
+	
+		1. 서버측에서 쿠키를 생성해서 클라이언트에게 전달하여 클라이언트 측에 쿠키가 저장된다	 
+	
+			client(browser) --request--> 1. SetCookieServlet
+							 	 	 	 2. Cookie 생성 ( new Cookie(name, value) ) 
+							 	 	 	 3. cookie.setMaxAge(30); //30초 동안 해당 쿠키가 유효하도록 설정 
+							 	 	 	 4. response.addCookie(cookie); //클라이언트 측으로 쿠키를 전송(클라이언트에 저장되므로) 
+			   	   	   	   <--response--
+			   	   	   
+		2. 클라이언트가 접속하면 서버측에서 클라이언트의 쿠키를 확인해서 특정쿠키(name이 time인)의 value를 얻어와(get) 화면에 출력
+	   			○ request 객체 안에 쿠키 정보 가져올 수 있는 메서드가 있다 .
+	   				getCookies() --> 쿠키들을 배열로 반환한다 Cookie[]
+					Returns an array containing all of the Cookie objects the client sent with this request.
+	
+			client(browser) --request--> 1. GetCookieServlet
+									 	 2. request.getCookies() : Cookie[] //client로부터 쿠키 정보를 배열로 반환 (클라이언트에 저장되기 때문)
+									 	 3. Cookie 의 getName() 과 getValue() 를 이용해 특정 쿠키의 값을 확인 가능
+					   	   <--response--
+	
+		 
+		 
+	▷ HttpSession( or Session ) : - 사용자 상태 정보를 서버 측에 저장(ex.로그인과 같은 중요한 정보)
+						 		  - 저장 용량 및 데이터 타입의 제한은 없다
+						 		  - 로그인, 로그아웃 시에 세션이 이용된다 (+장바구니(db에 사용하긴 하지만 세션에서도 사용))
+						 		  - WAS 에 세션 유지 시간이 별도로 설정된어 있다(ex.로그인 유지 시간(별도의 사용자 작동이 없을시 언제 로그아웃?))
+						 		  - ( apache-tomcat 의 경우 C:\kosta224\WAS\web-tomcat\conf\web.xml 에 30 분으로 세션 유효 시간이 설정 )
+						 		  	바꾸고 싶다면 web.xml 코드 중 아래의 timeout 태그 숫자를 변경한다
+						 		  		<session-config>
+        									<session-timeout>30</session-timeout>
+    									</session-config>
+						 		  
+						 		  - 세션유지기간 ( ex - 로그인 유지 기간 ) 
+						 		  
+						 		  	 1) 지정한 유효시간( tomcat 30분 ) 내에 새로운 요청이 없으면 세션이 만료된다 (정부24의 로그인 만료 팝업창 - 29 분에 다시 클릭하면 로그인 30분 연장)
+						 		  	 2) 브라우저를 종료
+						 		  	 3) 로그아웃을 실행할 때
+						 		  	 
+						 		  	 
+						 		  - HttpSession 관련 주요 메서드
+						 		  	⊙ HttpServletRequest 의 getSession() 메서드 : 기존 세션이 존재하면 기존 세션을 반환, 없으면 새로 생성해서 반환 (request.getSession(true)와 동일)
+						 		  	⊙ HttpServletRequest 의 getSession(false) 메서드 : 기존 세션이 존재하면 기존 세션을 반환, 없으면 null 을 반환
+						 		  	
+						 		  	⊙ HttpSession 의 setAttribute(String name, Object value) : 세션에 String 타입의 name과 Object 타입의 value를 할당해서 저장
+						 		  	⊙ HttpSession 의 getAttribute(String name) : 세션에 저장된 attribute 정보를 name으로 검색해서 value 를 반환
+						 		  	
+						 		  	⊙ HttpSession 의 invalidate() : 세션을 무효화 ( 로그아웃시 사용 ) (jsessionid를 없애는게 아니라 연결만 끊는 것, 안 쓰게끔 무효화만 시킴)
+						 		  	
+						 		  	
+						 		  
+						 		  - getSession(), getSession(boolean creat)
+						 		  - HttpServletRequest Interface로부터 getSession()을 사용한다 
+						 		  - getAttribute(String name), setAttribute(String name, Object value)
+						 		  - 로그인이 되면 세션이 만들어지면서 세션에 회원정보가 올라간다. 
+						 
+	==============================================					 
+						 		  
+	▷ 로그인 과정에서 세션처리 흐름
+	
+		client browser -- request --> 1. if(회원 아이디, 패스워드가 일치하면)
+									  2. HttpSession session = request.getSession();//기존 세션이 있으면 기존 세션 반환, 없으면 새로 생성해서 반환
+									  3. session.setAttribute(String name, Object value);//인증정보(회원객체)를 할당
+									  4. 응답시 클라이언트에 jsessionid cookie(name:JSESSIONID, value:WAS에서 생성한 세션 아이디)를 전달한다
+									  5. 서버측에는 세션 생성시 jsessionid에 매핑된 세션객체가 존재하는 상태
+					  <-- response --
+					  
+	==============================================
+	
+	▷ 로그인 후 다시 접속했을 때 세션처리 흐름 
+		client browser -- request --> 1. HttpSession session = request.getSession(false);//세션이 있으면 반환, 없으면 null return
+									 	 위 코드의 getSession(false) 는 내부적으로 접속한 클라이언트(브라우저)가 
+									 	 WAS가 발급한 JSESSIONID 쿠키 정보가 있는 지 확인해서 있으면 WAS에 저장한
+									 	 JSESSIONID에 연결된 세션 객체를 반환하고 없으면 null 을 반환 
+									 	 
+									 	 --> 내부적으로 cookie를 사용하고 있다 
+									 	 
+									 	 //클라이언트가 로그인 했는 지 여부를 판단할 때는 세션 유무와 함께 인증정보 유무를 함께 판단한다
+									 	 if(session != null && session.getAttribute("mvo") != null) {
+									 	 	로그인한 사용자라고 확인됨(session이 null이 아니고 mvo객체가 null이 아니면- 인증정보가 있으면)
+									 	 }
+									 	 jsp의 디폴트는 세션 생성 
+	
+									  
+//web.xml의 <session-config>태그에서 <session-timeout> 태그에서 세션 유지 시간 변경 가능 
+
+//세션 serailizable : 
+//분산된 웹 서비스 구현체에서 서버 객체 사이에 세션들을 이동하거나, 서버 재시작시 세션을 유지 및 메모리 낭비를 줄이기 위함
+
+*****************************************************************************************************************************************
+
+●●●●● webstudy11-jsp-basic ●●●●●
+
+▣ JSP : Java Server Page
+		동적인 웹페이지를 위한 기술
+		서블릿과는 다르게 HTML 상에서 자바코드( or jsp tag ) 를 삽입하는 형태로 개발
+		JSP는 WAS(Web Container)에 의해 java 로 생성되고 컴파일되어 실행된다 
+		( 생성된 java class는 HttpServlet의 자식 클래스이다. JSP is a Servlet )
+		생성된 자바 파일은 tomcat/work 디렉토리에 저장된다 
+		
+▣ Model2 Architecture MVC 에서는 Model 은 java beans, View 는 JSP, Controller 는 Servlet 이 담당한다
+
+▣ Servlet과 다르게 webapp 에 저장
+  C:\kosta224\WAS\web-tomcat\work\Catalina\localhost\webstudy11-jsp-basic\org\apache\jsp\step1-jsp.class, step1-jsp.java
+
+▣ JSP 기본 문법
+	1) jsp 주석 <%--   --%>   참고) html 주석 <!--    -->
+	2) scriptlet 스크립틀릿 <% java code %> : service() 메서드 내에 자바 코드로 삽입
+	3) expression <%=     %> : out.print() 의 역할, 화면 출력용
+	4) declaration 선언 <%!   %> : 멤버 변수, 메서드 정의시 사용
+	5) directive 지시자 <%@   %> : jsp 문서 정보를 웹컨테이너에 전달, 한글처리방식, 문서타입, import, errorPage... etc 기술
+								 컨텐츠타입 설정, 내가 jsp야!!!!! 라고 알리기, 
+
+		
+		ex) 검색창에서 검색어에 대한 포맷(웹사이트 구조 등)은 같지만 컨텐츠(결과값으로 나오는 데이터)가 달라짐 , 서블릿으로만 하면 검색어마다 다 구현
+			template은 그대로고 검색어에 대한 페이지만 동적으로 만듦 - html 템플릿만 그대로 
+			
+			==> ★★★ html 을 dynamic하게 만든다 ★★★
+
+▣ jsp에서 exception 상황 발생시 client 에게 exception code를 보여주지 않고 긴급점검중, 공사중 입니다 이미지를 페이지 출력
+
+▣ JSP LifeCycle - Servlet과 동일 ( 차이점은 jsp 를 이용해 .java를 생성하고 .class 로 컴파일해서 실행, 실행되는 위치 : tomcat/work 디렉토리에 생성 )
+
+											WAS( Web Container )
+	
+	client browser -- request -->  		is loaded?(jsp 실행됐었나?) ----- no -----> .jsp 를 이용해 .java 로 생성하고 .class 로 컴파일 후 class loading
+											|													|
+											|													|
+											|												 객체 생성
+											|yes												|
+											|											init() -- jspInit()
+											|													|
+											|-------------------------------------->  service() --jspService()
+							
+							
+											destroy() -- jspDestroy() --> WAS 종료직전에 호출 
+
+
+
+웹컨테이너는 자바코드를 만들어준다, 스크립틀릿이나 태그는 jspservice() 메서드 내에 들어가는 코드 
+request 어떻게 쓰는가 work 파일 ---- 들어가서 service() 코드 확인해보면  매개변수로 request, response 들어간다 
+
+내장객체!!- 표 만들어서 할 것까진 없다 - 왜냐? .java파일 가서 보면 사용되는 객체가 다 적혀져 있기 때문에 확인하면 된다 
+
+
+****************************************************************************************
+
+●●●●● webstudy12-form ●●●●●
+
+- Query String ( 쿼리 스트링 ) : 웹프로그램에 입력데이터를 전달하는 방법 
+
+http://localhost:8888/webstudy12-form2/step2-2-querystring-action.jsp?no=2&food=갈비
+
+URL  ? Query String ( name=value&name=value ) 
+
+? : URL 주소와 Query String을 구분  
+& : 여러 쌍의 데이터를 전달할 때 사용   
+
+javascript event 처리 관련
+onclick : form 요소에 마우스 클릭했을 때 발생하느 이벤트
+onchange : form 요소의 value 가 변경되었을 때 발생하는 이벤트
+onsubmit : form 전송시 발생하는 이벤트 
+onkeyup : 키보드의 키를 눌렀다가 뗄 때 발생하는 이벤트 
+
+
+▷ client side script 는 알아서 interpret하기 때문에 소소한 문법은 알아서 체크해준다 --> 하지만 정확한 문법을 지킬 것 
+
+	client side script										server side script
+
+	- browser					-- request -->
+															Servlet/JSP (동적으로 웹문서(html/css/javascript)를 생성해서 응답)
+	- html / css / javascript  <-- response --
+
+
+	ex)														alert("<%= %>님 어린이 영화..");			//이 코드가 실제 클라엑게 응답할 때는 
+							   		   <--------------		- jsp는 서버측에서 (out.print()로 출력)실행되어 문자열로 응답한다
+
+		alert("이강인님 어린이 영화..");
+		- 위 코드를 서버측에서 전달받아 
+		  브라우저가 해석해서 화면에 반영한다
+
+
+******************************************************************************************************************************************
+
+●●●●● webstudy13-model1 ●●●●●
+
+< web 개발방식의 변천사 - 시간의 변하에 따라 기능별로 분업화(ex.1인 분식점 - 가맹점 - 마트 정도(키오스크 주문 전담)의 분업화로 생각)> 
+
+▣ 1. 초기 웹 개발방식 : jsp안에 DB 연동과 모든 작업을 처리한다. jsp로 모두 끝낸다(view, controller, model) --> 유지보수에 문제
+				    jsp-db.jsp 예제에서 확인
+				 
+  JSP	<-------->	Database
+  
+------------------------------------------------------------------------------------------
+
+▣ 2. Model 1 Archiltecture : index.jsp 에서 확인, jsp와 java beans 가 연동
+  	 참고) Software Architecture : 소프트웨어 아키텍처(or 구조)는 구성 요소들 사이의 유기적 관계를 표현 
+  							      소프트웨어 설계와 업그레이드를 통제하는 지침과 원칙
+  
+  	 //Java Beans : 자바 콩 ! 무슨 콩? - 자바 컴포넌트를 자바빈즈라고 한다---> Encapsulation
+  							   
+  	 client	<------->	JSP	 <-------->	  Java Beans(or Component)   <-------->	Database
+  	 
+ 
+  	 
+  
+  	 JSP : Client의 요청을 분석, Java Beans와 연동, 적절한 결과를 Client에게 응답
+  	 Java Beans : Java Class(or Object) 들로 구성된 컴포넌트를 말한다
+  			   	  Java Beans는 DB 연동 로직과 Business Logic을 수행한다
+  			      (참고 : 컴포넌트란 객체들이 상호 연동되어 독립적 기능 단위를 구성할 때 컴포넌트라고 한다) 
+  			      ex) 오디오의 변천사 - 스피커와 본체 분리 (컴포넌트형) - Component Based Developement
+  			   	      레고 블럭처럼 컴포넌트를 구성 - 조립형으로 프로그램 구성 
+  			   	   
+  			   	      Spring bean(spring에 특화된 java object)
+  			   	      Spring beanfactory(spring 의 java object 만들어주는 공간)
+
+
+***********************************************************************************************************************************
+
+●●●●● webstudy14-model2-mvc-basic ●●●●●
+
+▣ 3. Model 2 Architecture MVC Design Pattern
+	▷ Model 2 설계방식의 근간을 이루는 Design Pattern 이 MVC
+	▷ 통상적으로 Model2 or MVC or Web MVC or Model2 MVC 라고 불린다 
+	 
+	▷ Structure
+	 
+	 -------------------------------------------------------------------------------
+	 				  WAS(Web Container)
+	 				  
+	 client	  --->	Controller ( Servlet ) <---> Model ( Java Beans ) <---> Database
+	 						 |
+	 						 |	forward or redirect 방식
+	 						 |
+	 		  <--- 		 View ( JSP )
+	 		  
+	 -------------------------------------------------------------------------------
+
+
+	▷ Model2 MVC or Web MVC : web application 설계방식 ( or Architectrue or 구조 ) 으로서 
+	 						  Model 과 View 와 Controlloer 영역으로 분리해서 설계 구현 하는 것을 말한다 
+	 						   
+	 						   
+	 						  1. Model : - Java Beans( or Java Component ) - DAO, Service, VO, DTO 등 
+	 						   			 - 비즈니스 로직과 데이터 엑세스 로직을 정의 ()
+	 						   			 - '무엇'을 하는가? 
+	 						   			 
+	 						  2. View : - JSP 가 담당 
+	 						   		    - 클라이언트에게 동적인 웹페이지를 제공
+	 						   		    - '화면에 무엇'을 보여주기 위한 역할
+	 						   		    
+	 						   			
+	 						  3. Controller : - Servlet이 담당 
+	 						  				  - 웹 어플리케이션의 제어자 역할
+	 						  				  - client의 요청을 분석(http를 이해해야하는데 servlet은 http이해하는 객체)
+	 						  				  - Model과 연동 (model이 검색기능 추출, 회원가입 메서드 호출)
+	 						  				  - 적절한 이동방식(forward or redirect)으로 
+	 						  				    View 선택해서 클라이언트에게 응답하게 한다 (제어를 이동시켜 View를 이용해 클라이언트 응답, 알맞은 뷰에 제어권 부여 - front controller?)
+	 						  				  - //controller 가 가장 먼저 처음으로 요청 처리 - Model2-2.png 참고
+	 						  				  - Model 이 '어떻게' 처리할 지 알려주는 역할, 화면의 로직
+								
+
+
+***********************************************************************************************************************************
+
+●●●●● webstudy15-forward-redirect ●●●●●
+				
+				
+	▷ Controller(Servlet) 에서 View(JSP) 로 이동하는 방식 
+	
+		1. forward 방식 : request와 response 가 유지되면서 이동되는 방식, 재요청시 기존 동작 반복(F5 or 새로고침 하면 기존 동작 반복)
+		  
+		   - request와 response 가 유지되면서 이동되는 방식
+		   - WAS( Web Container, 서버 ) 상에서 이동되고 클라이언트 측은 이동여부를 모른다
+		   - 즉 ★서버 상에서 이동★되므로 클라이언트 브라우저 상의 url은 변경되지 않는다(allmembercount.jsp로 변경되지 않음)
+		     클라이언트가 재요청을 할 경우에는 기존 동작이 반복된다(url이 변경되지 않으므로 기존동작 반복)
+		     
+		   - 필요시 Model 과의 연동 결과를 request 객체에 정보를 할당 ( request.setAttribute(name, value) )하고
+		   	 View 에서 정보를 이용( request.getAttribute(name) )해서 클라이언트에게 응답하게 한다
+		   
+		   ex) request.getRequestDispatcher(view url).forward(request, response);
+		   	   view url : 페이지 화면 전담하는 url 주소 
+		   	   서버상에서 이동되기 때문에 request와 response 변수 필요 -> forward의 매개변수로 request 와 response가 들어간다 
+		   	   - 기사검색(select) 한바퀴씩 도니까 페이지 그대로 잇는거고 
+
+	    2. redirect 방식 : 기존 request 와 response 가 유지되지 않는다. 재요청시 기존 동작을 반복하지 않는다(redirect된 동작으로 수행 )
+	    				  		  
+	       - 이동시 client 에게 url을 전달해서 client가 다시 이동하게 하는 방식 (다시 지정한다)
+	       - 기존 request와 response가 유지되지 않는다 (새로운 요청 발생)
+	       - ★client 가 지정한 url로 다시 이동★하므로 ★새로운 request와 response★가 생성된다
+	       5
+	       ex) response.sendRedirect(view url);
+	       	   회원가입 했으면 회원 가입 결과 페이지 클라에게 이동하라고 한다 f5누르면 결과페이지만 보여준다 
+	       	   재동작이 되면 곤란한 것들 : 회원가입, 게시판에 글쓰기, 새로고침 (insert, update ...)
+	       	   
+	       	   상태가 변화되니 같은 작업을 반복하지 않는 경우 
+
+
+//응답은 view가 다 처리하므로 이전에 서블릿에서 했던 printwriter, request.setContextType, etc 등 필요가 없다 
+//모델로부터 get id, name 뽑아오는게 view와 model의 관계 
+
+
+***********************************************************************************************************************************
+
+●●●●● webstudy16-mvc-singleton ●●●●●
+
+▣ Singleton Design Pattern : 시스템 상에서 단 한번 객체를 생성한 다음, 여러 곳에 공유하여 사용하고자 할 때 적용하는 설계 패턴 
+
+							 ( 참고 - spring framework에서는 기본 객체 운용방식이 singleton 방식이다 )
+							 //스프링의 컨테이너가 싱글톤으로 작동한다, spring bean singleton 검색
+							 
+	▷ 적용방안
+	
+	   1) private 생성자 : constructor(생성자)에 private access modifier(접근제어자)를 명시해 
+	   					 외부(다른 user class-해당 객체는 사용하는 아이)에서 객체 생성하는 것을 막는다
+	   					 
+	   2) private static 멤버변수로 자신의 객체를 생성 : private static 멤버 변수차원에서 클래스 로딩 시점에 자신의 생성자를 이용해 
+	   											 단 한번만 객체를 생성하고 meta space 영역에 주소값을 저장(변수)
+	   											 //static은 class loading 시점에 딱 한번만 메모리에 적재되기 때문 -- 따라서 static 이용하여 객체 생성
+	   											 
+	   3) public static 메서드로 외부에 공유 : public static 메서드로 외부(다른 클래스)에서 사용하는 측에 한 번 생성하여 meta space,
+	   									  즉, static 변수에 저장된 객체의 주소값을 반환하여 사용하게 한다					 
+							
+	   
+	   코드 예) 
+	   		-------------------------------------------------------------------
+	   		  public class CompanyDAO {
+				  //static 변수로 단 한번 객체 생성 (meta space에 현 객체 주소값을 저장)
+				  private static CompanyDAO instance = new CompanyDAO();
+				  private String companyInfo = "회사정보";
+				  //private 접근제어자로 외부에서 객체 생성하는 것을 막는다
+				  private CompanyDAO() {
+					  System.out.println("CompanyDAO 객체 생성");
+				  }
+				  //public static 메서드로 외부에 공유
+				  public static CompanyDAO getInstance() {
+					  return instance;
+				  }
+				  //Business Logic
+				  public String getCompanyInfo() {
+					  return companyInfo;
+				  }
+			  }
+			-------------------------------------------------------------------
+			 위의 Singleton Design Patten 이 적용된 클래스를 사용하는 코드 
+			  - System.out.println(CompanyDAO.getInstance().getCompanyInfo());
+
+
+
+***********************************************************************************************************************************
+
+●●●●● webstudy17-mvc-session ●●●●●
+
+▣ jsp 에서 세션 사용 
+	: jsp는 기본적으로 session을 사용할 수 있다
+	
+	  web container에 의해 jsp 가 java로 생성될 때 session 변수에 getSession() 메서드를 이용해 세션 객체를 할당하는 
+	  코드가 생성되어 있다 ( getSession() 메서드는 기존 세션이 존재하면 기존 세션을 반환하고 기존 세션이 존재하지 않으면 
+	  새로 생성해서 할당 )
+	  
+	  그러므로 회원 인증시( 로그인 )에는 세션에 인증정보( 주로 회원 객체 )를 할당해서 
+	  이후 회원 인증 여부( 로그인 체크 )를 확인할 때는 
+	  세션 유무와 함께 로그인시 할당한 인증정보가 존재하는 지를 함께 확인해야 한다(세션의 유무로만 판단 불가능, 기본적으로 jsp는 세션 사용이 가능하기 때문)
+	  
+▣ Model2 MVC 에서 Servlet과 JSP에서 세션을 사용 : mvc-login.jsp 와 LoginServlet에서 확인
+
+	 예제) 
+	  mvc-login.jsp  -----  LoginServlet  
+							       |
+							       | 아이디와 패스워드가 일치하면 세션에 인증정보(회원객체)를 할당한다
+							       |
+							       | 재동작 안되도록 redirect 이동시킨다
+							       |
+						   login-ok.jsp or login-fail.jsp
+						   아이유님 로그인 	   alert() 로그인 실패 후 mvc-login.jsp 로 이동
+
+
+***********************************************************************************************************************************
+
+●●●●● webstudy18-mvc-session ●●●●●
+
+UML 중에서 usecase diagram
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
