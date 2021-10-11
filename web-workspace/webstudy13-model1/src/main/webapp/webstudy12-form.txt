@@ -1,0 +1,45 @@
+******************************************************************************************
+
+webstudy13-model1
+
+< web 개발방식의 변천사 > 
+
+▣ 1. 초기 웹 개발방식 : jsp안에 DB 연동과 모든 작업을 처리한다. jsp로 모두 끝낸다(view, controller, model) --> 유지보수에 문제
+				    jsp-db.jsp 예제에서 확인
+				 
+  JSP	<-------->	Database
+  
+------------------------------------------------------------------------------------------
+
+▣ 2. Model 1 Archiltecture : index.jsp 에서 확인, jsp와 java beans 가 연동
+  	 참고) Software Architecture : 소프트웨어 아키텍처(or 구조)는 구성 요소들 사이의 유기적 관계를 표현 
+  							      소프트웨어 설계와 업그레이드를 통제하는 지침과 원칙
+  
+  	 //Java Beans : 자바 콩 ! 뭔 콩? - 자바 컴포넌트를 자바빈즈라고 한다---> Encapsulation
+  							   
+  	 JSP	<-------->	Java Beans(or Component)   <-------->	Database
+  
+  	 JSP : Client의 요청을 분석, Java Beans와 연동, 적절한 결과를 Client에게 응답
+  	 Java Beans : Java Class(or Object) 들로 구성된 컴포넌트를 말한다
+  			   	  Java Beans는 DB 연동 로직과 Business Logic을 수행한다
+  			      (참고 : 컴포넌트란 객체들이 상호 연동되어 독립적 기능 단위를 구성할 때 컴포넌트라고 한다) 
+  			      ex) 오디오의 변천사 - 스피커와 본체 분리 (컴포넌트형) - Component Based Developement
+  			   	      레고 블럭처럼 컴포넌트를 구성 - 조립형으로 프로그램 구성 
+  			   	   
+  			   	      Spring bean(spring에 특화된 java object)
+  			   	      Spring beanfactory(spring 의 java object 만들어주는 공간)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
