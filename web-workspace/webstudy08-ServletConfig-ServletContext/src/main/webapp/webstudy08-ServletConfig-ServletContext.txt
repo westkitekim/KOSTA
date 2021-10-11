@@ -1,0 +1,282 @@
+**Servlet 기본 개념**
+
+▣ HTTP : HyperText Transfer Protocol
+▣ WAS : Web Application Server
+	    Web Server + Web Container의 기능 
+	    Web Server -> HTTP에 의거해 HTML을 서비스하는 서버 
+	    Web Container -> Servlet/JSP 실행환경을 제공
+	    
+	    //Web Server 는 html기반으로 
+▣ WAS 제품 중 Apache-Tomcat을 사용한다
+
+▣ Web 환경설정
+	0. WAS 설치
+	1. 포트설정 : apache-tomcat/conf/server.xml 에서 port를 변경 (이유 : 오라클 포트와 중복 방지)
+	2. 한글처리 ( get 방식 ) - URIEncoding = "UTF-8" 설정 추가 
+	3. 자동리로드 : apache-tomcat/conf/context.xml 에서 reloadable = "true" 설정 추가
+	   			 java class ( Servlet 포함해서 ) 변경시 자동 리로딩하여 개발의 편의성 증대
+	  
+// 채팅서비스시 22명의 접속자가 있으면 스레드는 22개 생성, 
+   그 submit 을 했을 때 응답 받았는데 내부적으로 그 스레드도 22개가 생성됨 서블릿을 이용한 객체는 한 개지만 스레드는 22개가 생성 
+   servlet 의 32p 참고 
+   
+   spring dispatcherservlet 참고 : 요청의 진입점으로 사용하는 아이 
+
+▣ Servlet : Java Web Programming 기술 
+ 			java class로 표현
+ 			Model2 Architecture(MVC) 에서 Controller의 역할을 한다 
+ 			( Spring Framework의 웹 기술 SpringMVC의 FrontController 인 DispatcherServlet도 서블릿이다 , 내부에서 중요한 역할을 하는 컴포넌트)
+
+▣ JSP : Java Server page
+		동적인 웹페이지 생성을 위한 기술 (검색결과의 포맷창은 같은데 결과물이 다른 것) 
+		HTML 구조 상에서 JSP tag(java code) 를 삽입 -> View 를 구현한는 측면에서 장점 //39p, <%%>가 JSP tag
+		Model2 Architecture( MVC ) 에서 View의 역할을 한다 //결론적으로 클라에게 가는 것은 HTML, CSS지만 안에서JSP??
+		
+  참고) MVC Design Pattern
+  	   Model : 비즈니스 로직과 데이터 엑세스 로직을 담당 (beans : 콩, 캡슐화, 서버측의 비즈니스 로직)
+  	   		   Java Beans ( or Java Component ) : Service, DAO, DTO, VO...
+  	   View : 클라이언트에게 동적인 화면을 제공 - JSP가 담당
+  	   Controller : 제어자의 역할, 클라이언트의 요청을 분석, 그에 대한 Model 연동 후 
+  	   				적절한 View를 선택해 응답하게 하는 역할 
+  	   				
+  	   JSP 는 Servlet이다(is a 관계) -> JSP 는 Web Container에 의해 java class로 생성되어 컴파일, 실행되고 
+  	   		 			   			 이 java class는 Servlet Interface의 하위, HttpServlet class의 자식 (JSP는 Servlet의 자식이다) 
+  	   					   			 
+  	   					   			 servlet 가보면 extends HttpServlet이 기본  
+  	   		   
+  	   
+servlet 만드는 디렉토리는 java class 라서 컴파일을 해야하기 때문에 디렉토리가 다르다. 
+html, css, js 는 컴파일과정이 필요가 없기 때문에 디렉토리가 다르다 
+		
+		
+*****************************************************************************************************************************
+	webstudy06-servlet-basic
+	
+- 실행은 html 먼저, 그다음 servlet
+
+▣ Deployment Descriptor (DD) : WEB-INF/web.xml -> 웹어플리케이션의 설정 정보를 기술
+  배포 		 기술서 			   WAS 는 웹어플리케이션 실행 첫 시점에 DD(web.xml) 정보를 메모리에 로드하여(어떤 서블릿이 있고 세션 주기 등등 정보를 기술, 메모리를 로드하여 여기에 의거하여 실행)
+  							   서비스에 반영한다
+  
+  
+▣ web.xml 의 서블릿 설정 부분
+-----------------------------------
+ <servlet>
+  	<servlet-name>basic</servlet-name> <!-- 서블릿 별칭, 개발자 마음대로 지정 -->
+  	<servlet-class>step1.BasicServlet</servlet-class> <!-- 패키지명.클래스명(물리적인 위치) step1.BasicServlet의 별칭이 basic-->
+ </servlet>
+ <servlet-mapping>
+  	<servlet-name>basic</servlet-name> <!-- 위 서블릿을 지칭, 별칭 동일해야 함 -->
+  	<url-pattern>/bs</url-pattern> <!-- 클라이언트가 해당 서블릿을 실행시켜 서비스 받기 위한 url, 개발자맘으로 변경 가능, 원래는 클래스명ㅣ인 BasicServlet-->
+ </servlet-mapping>
+-----------------------------------
+--> 위 부분을 WAS 가 처음 실행시 쭉 메모리에 로드하고 클라가 해당부분을 찾으면 반환
+
+
+▣ Http Request Method ( 요청 방식 )
+	1. get 방식 : 정보 조회용, url 상에 전송 정보가 노출됨, 전송 데이터 용량에 제한(db의 select) ex. 파일 업로드, 등
+	2. post 방식 : 정보 전달용(주로 서버 자원의 데이터 변경시 사용), url 상에 전송 정보가 노출되지 않고 
+				  http request body 부분에 저장되어 전송(별도의 한글처리가 필요),(db 의 insert,delete,update)
+				  전송 데이터 용량 제한 없음
+				  
+				  ex. 로그인
+
+
+▣ client ( html form ) 과 server ( servlet ) 연동													Server
+
+  client
+  <form action="url pattern" method="get">														url pattern에 해당하는 서블릿의 doGet 메서드가 실행	
+  <input type="text" name="food">																클라이언트가 보낸 정보를 입력받기 위해 
+  <input type="submit" value="주문">																request.getParameter(name) 즉 request.getParameter("food")과 같이 입력받는다
+  </form>
+  
+  - submit 을 누르면 아래와 같은 형식으로 전송된다(물음표로 구분, &로 여러 개)
+  http://localhost:8888/webstudy06-servlet-basic/url-pattern?name=value&name=value
+  
+  웹컨텍스트명(웹어플리케이션명) = 프로젝트명(webstudy06-servlet-basic)
+
+servlet, jsp는 클라에 도달안함//
+
+****************************************************************************************************************************************************************************
+webstudy07-servlet-LifeCycle
+
+▣ Web Architecture(설계양식) - 3 tier(3 계층)
+													WAS(Web Server + Web Container)(미들웨어)									Database
+	client - browser
+	http 프로토콜에 의거해 								Http 프로토콜에 의거해 
+	서버로 요청 ( Http Request 전달 )					Http Request 를 분석
+													적절한 Http Response 로 응답
+	Http Response 메세지를 입력받아 
+	html, javascript, css를 해석해서 
+	브라우저 상에서 표현
+	
+▣ 서블릿 계층구조 ( Servlet Hierarchy ) : servlet-hierarchy.jpg 참조
+	<<interface>> - 표준을 명세
+		Servlet : 서블릿 인터페이스는 모든 서블릿(jsp 포함, jsp is a servlet)이 implements 해야 하는 메서드(abstract method)를 정의한 인터페이스
+		  		  모든 서블릿과 jsp의 최상위 인터페이스이다. 
+		  
+	<<abstract>> - 구현된 멤버를 물려준다
+		GenericServlet : Servlet interface를 implements 하는 abstract class
+						 프로토콜에 독립적인 abstract class
+						 일반적으로 서블릿(서버프로그램)이 가져야 하는 메서드를 구현해 자식 클래스에게 물려주고 
+						 자식 차원에서 구현해야 하는 abstract method ( service 메서드 ) 를 정의하고 있다 
+
+	<<abstract>>	
+		HttpServlet : GenericServlet을 상속받는 클래스 
+					  Http Protocol에 특화된 서비스를 구현하는 데 유용한 기능을 제공한다 
+					  일반적으로 web application 개발시에는 이 클래스를 상속받아 개발한다 (모든 jsp 는 HttpServlet 을 상속받는다)
+					  
+					  
+
+
+java ee는 추상화시켜 설계를 해놓으면 다형성에 기여한다 - 웹 프로그래밍에서도 서블릿 인터페이스 중심으로 설계되어있는 방식에 따라 개발하기 때문에 
+서블릿에서 제공해주는 인터페이스 하나의 방식으로 다양한 WAS에서 만든 프로그램이 실행될 수 있음
+ 
+▣ Servlet Interface ( Servlet, ServeletRequest, ServletResponse, HttpSession .. ) 들을 중심으로 
+  Servlet API ( Application Programming Interface ) 를 정의하고
+  실제 구현 클래스 ( 구현체 : implementation ) 들은 개별 WAS 제품군에서 정의 
+  이러한 설계의 장점은 다형성 적용에 있다. 
+  일반 웹어플리케이션 개발 진영에서는 Servlet API 즉 인터페이스를 보고 개발하고 
+  실제 동작은 개별 WAS 제품군에서 구현한 클래스가 동작하는 방식으로 
+  WAS 가 변경되더라도 특정한 프로그램의 수정없이 배포되어 실행될 수 있다는 장점이 있다
+  => Web Application 과 개별 WAS 제품군과의 결합도를 낮추어 유지보수성을 향상시킬 수 있다는 의미 
+  
+  
+▣ Servlet LifeCycle
+  Servlet / JSP 계층구조의 최상위 인터페이스 Servlet 의 LifeCycle abstract method
+  init(), service(), destroy()
+  
+  서블릿의 라이프 사이클 관리하는 주체는 WAS( Web Container ) 이다
+  -> web.xml(Deployment Descriptor : 웹어플리케이션 설정정보를 로딩하고 서블릿 객체를 생성하고
+  	 init(), service() -> doGet() or doPost(), destroy() 를 실행하는 주체는 Web Container(Servlet Container)이다
+  	 
+  	 init() : 해당 서블릿의 초기화 작업을 담당, 서블릿마다 한 번만 실행
+  	 service() : 해당 서블릿이 클라이언트에게 서비스하기 위해 실행 ( 내부적으로 doGet() or doPost() 로 연결 ) 
+  	 			 클라이언트 요청시마다 매번 실행
+  	 destroy() : 해당 서블릿이 서비스 종료되기 직전에 호출 ( WAS를 중지할 때 실행 ) - 필요시 오버라이드 (ex. 객체 직렬화 통한 백업작업들, 다음에 다시 시작할 때 init()하여 불러오기 , school project 에서 죽기 전에 정보 저장)
+--------------------------------------------------------------------------------------------------------------------------
+										
+										
+										WAS(Web Server + Web Container)
+	
+	client browser -- request -->		is loaded? -- no --> class loading 
+				  <-- response --			|					   |
+				  							|				 객체 생성 (서블릿 생성)
+				  							|					   |
+				  							|				 init(ServletConfig) 호출(모든 서블릿과 jsp에 있음) (Servlet api 참조)
+				  							|				 	   | 
+				  						   yes   ------>	 service(request, response) --> doGet() or doPost()
+				  							
+				  				
+															 destroy() : 해당 서블릿이 서비스 종료 (WAS 종료시) 되기 직전에 호출 
+
+
+
+
+	* is loaded? : 한번이라도 실행된 적이 있는가? 
+	* 서블릿 객체는 1개이기 때문에 메모리 부담이 적어진다. 
+	
+	* LifeCycle을 관리한다는 말? : 생명주기에서 중요한 3가지 : init(), service() destroy() 가 있는데 모든 서블릿과 jsp 과 이 3가지 메서드를 공유하고 있다 
+							   그 메서드가 container
+
+---------------------------------------------------------------------------------------------------------------------------
+
+  ex) LifeCycleServlet 에 클라이언트가 10명이 접속해서 서비스를 받았다 
+  	  
+  	  LifeCycleServlet 객체는 몇 개 생성? : 1개(멀티스레딩으로 서비스된다)
+  	  init() 몇 번 실행? : 1번
+	  service() 몇 번 실행? : 10번
+	  destroy() 몇 번 실행? : 서비스 종료(was 중지) 직전 1번 실행(문제 주의, 서비스를 받았기 때문에 destroy() 실행 안됨)
+	  
+	  
+	  
+	  
+▣ ServletConfig
+	개별 서블릿의 설정 정보를 저장하는 객체
+	서블릿 당 하나 생성
+	Web Container(Servlet Container) 에 의해 init 호출시점에 ServletConfig 객체가 주입된다 
+	초기 파라미터 ( init-param ), ServletContext 객체 주소값 등이 SerletConfig에 저장되어 전달된다 
+	
+	ex) 사원(Servlet) 당 사원증(ServletConfig)
+	
+	web.xml에서 contextConfigLocation은 정해진 이름 
+	
+▣ ServletContext
+	웹어플리케이션 내의 모든 서블릿과 jsp가 공유하는 자원 ( 필요시 정보를 set/get 할 수 있다 ) 
+	웹어플리케이션 당 하나 생성
+	웹어플리케이션 시작 시점에 생성되고 종료 직전에 소멸된다 (웹어플리케이션 자체의 환경정보)
+	
+	ex) 회사(web application) 사내 인트라넷(ServletContext) 
+
+	ex) 로그인 인증을 통한 인가작업, 보안작업 이 필요할 때 사용(ServletContext)
+		ServletContext에 접근하기 위해  ServletConfig가 있어야 함
+
+*************************************************************************************************************************************
+2021-09-27
+webstudy08-ServletConfig-ServletContext
+
+------------------------------------------------------------------------------------------
+note> 
+
+xml 파일이 수정되면 다시 실행해야함 
+contextConfigLocation dispatcher-servlet.xml : 잘 만들어진 프레임워크 사용시 - contextConfigLocation
+
+ServletConfig level 은 개별 Servlet 태그 안에서,
+ServletContext는 전역 영역이기 때문에 전체 범위에 작성 
+
+listener는 무엇인가 : ServletContext Life Cycle 의 변화가 생길때마다 annotation을 받는 것 
+listener 생성 파일이 따로 존재한다 
+
+Spring Security Xml Config - 구글링
+-------------------------------------------------------------------------------------------
+	
+▣ ServletContextListener : 웹 어플리케이션 LifeCycle event 발생시 ( 웹 어플리케이션 시작 이벤트, 종료 이벤트 ) 실행되는 메서드를 가진 Interface
+						   웹 어플리케이션 차원에서 시작 시점에 필요한 초기화 작업과 종료 시점에 필요한 백업, 로깅(logging) 작업 등을 처리하는데 용이하다
+						   
+						   - contextInitialized(event) : 웹 어플리케이션 시작 시점에 호출되어 실행되는 메서드 
+						   - contextDestroyed(event) : 웹 어플리케이션 종료 직전에 호출되어 실행되는 메서드 
+						   
+						   어플리케이션 전역에서 쓰이는 초기화 작업들을 명시하고 싶을 때 ServletContextListener Interface를 implements 하여 
+						   해당 Interface의 method를 overriding하여 사용한다
+						   
+						   웹어플리케이션이 처음 시작이 될 때 전역적으로 필요한 작업들을 초기화 할 때 servletcontextlistener의 initialized메서드 실행한다 
+						   이것은 나중에 spring Security 를 기본 세팅하는데 사용된다
+
+
+***************************************************************************
+
+▣ web.xml 의 load-on-startup 은 WAS 실행 시점에 해당 서블릿 객체 생성 및 init 실행해서  
+  미리 초기화 작업을 해두기 위한 코드이다.
+  
+  이것을 명시하는 이유는 최초 해당 서블릿을 서비스 받기 위해 접속하는 클라이언트에게 
+  신속하게 서비스하기 위해서이다.
+  
+  번호가 적은 순서대로 먼저 실행됨
+
+  <servlet>
+    <description></description>
+    <display-name>LifeCycleServlet</display-name>
+    <servlet-name>LifeCycleServlet</servlet-name>
+    <servlet-class>step1.LifeCycleServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  
+  - 확인 방법 : 서블릿을 실행시키는 것이 아니라 프로젝트 자체를 실행시켜 LifeCycleServlet 객체생성, init() 실행 문구가 출력되는 것을 확인한다
+  			 -> 어플리케이션이 실행될 때(=WAS가 실행될 때) 앞의 과정이 미리 수행됨, 다음에 처음 나오는 서블릿은 service()만 수행된다 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
