@@ -1,0 +1,214 @@
+***********************************************************************************************************************************
+
+●●●●● webstudy18-mvc-session (Mini Project) ●●●●●
+
+▣ UML : Unified Modeling Language -> application 분석 설계
+
+▣ UseCase Diagram : 요구분석을 위한 UML
+					시스템에 요구되는 기능을 사용자 관점에서 나타낸 다이어그램 (cf.객체지향의 사실과 오해 p.197)
+					
+					사용자 관점이기 때문에 일반인이 봐도 알 수 있게 직관적으로 표현한다 - 너무 추상적이거나 세부구현 작성하는 것은 아님
+					하기 전에 요구사항 시나리오 작성후 다이어그램 작성한다
+					
+					StateChart Diagram은 스레드 다이어그램 
+					
+					
+					회원가입이 주기능 - 
+					association : actor에서 usecase 방향 , 순서 상관 없다 
+					include : 
+					extend :
+					
+▣ Use Case : 사용자 관점의 기능 단위 ( 서비스 단위 ) ( ex - 도서검색, 도서대여, 로그인 ) 
+▣ Actor : 시스템 외부에 존재하면서 시스템과 상호작용하는 개체 ( ex - 고객, 관리자 ) 
+
+<< include >> 
+기본 Use Case 가 실행되기 위해서는 반드시 다른 특정 Use Case 의 행위를 포함해야 한다는 것을 의미 
+
+ex) 책대여 Use Case  --------->  회원인증 Use Case
+	도서 대여를 하려면 반드시 회원인증을 해야한다(먼저 선택한 것에서 다음 선택한것이 수반되어야 한다) 
+
+<< extend >>
+Use Case 가 특정 Use Case 에 정의된 행위로 선택적으로 추가 확장될 수 있다는 것을 나타냄 
+
+ex) 책대여 Use Case  <---------  부록 CD 대여 Use Case (화살표 방향에 주의)
+부록이라고 생각 나는 객체지향의 사실과 오해 라는 책을 대여햇는데 부록으로 디자인 패턴 책이 있어서 추가로 대여 가능하다 
+
+
+▣ Generalization
+	- 기능의 추가 관계가 아니라 개념의 일반화로 봐야 한다 
+	  ex) 도서 검색 Use Case 에서 신착도서 검색 Use Case, 간행물검색 Use Case 의 일반화된 Use Case 이다 //아래로 내려가면 상세,
+
+
+흰색 : (사용자) 1차 개발, 회색 : 관리자모드로 2차 개발 
+
+UseCase Diagram 예제) 아래 요구사항으로 Use Case Diagram 을 설계해보는 연습을 한다 
+	
+▷ 요구사항 
+   - 비로그인 상태에서 회원아이디로 회원 정보를 검색할 수 있다 (이름, 주소)
+   - 비로그인 상태에서 회원가입이 가능하다 
+   - 회원가입시에는 반드시 아이디 중복확인 과정을 거쳐서 중복된 아이디가 아닐 때 
+   	 회원가입이 되도록 한다
+   	 
+   - 선택적으로 고객이 원할 경우 프로필 사진 업로드가 가능하도록 한다
+   
+   - 회원일 경우에는 로그인, 로그아웃 기능을 사용할 수 있다
+   - 회원은 주소로 회원 정보를 검색할 수 있다
+   - 회원은 자신의 회원정보를 아이디를 제외한 비밀번호, 이름, 주소를 수정할 수 있다
+   --------------------------
+   	강사님 comment> 
+   		- generalization 은 필요없음 
+   		- 로그인 기능 안에 로그아웃 기능은 당연히 있기 때문에 Use Case에서 삭제해도 무방하다 
+   
+		- 유즈케이스로 업무할당, 
+		- 유즈케이스와 액터 뽑는게 가장 중요하다 usecase 추출하는게 가장 중요
+		- + actor 가 어떤 서비스를 받을 수 있는지
+   --------------------------
+   
+   - 비로그인 상태에서 회원아이디로 회원 정보를 검색할 수 있다 (이름, 주소)
+   - 비로그인 상태에서 회원가입이 가능하다 
+   - 회원가입시에는 반드시 아이디 중복확인 과정을 거쳐서 중복된 아이디가 아닐 때 
+   	 회원가입이 되도록 한다
+   	 
+   - 선택적으로 고객이 원할 경우 프로필 사진 업로드가 가능하도록 한다
+   
+   - 회원일 경우에는 로그인, 로그아웃 기능을 사용할 수 있다
+   - 회원은 주소로 회원 정보를 검색할 수 있다
+   - 회원은 자신의 회원정보를 아이디를 제외한 비밀번호, 이름, 주소를 수정할 수 있다
+   --------------------------
+   
+▷ 회원관리 시스템 분석, 설계, 구현 
+   - 요구분석 : UML 의 Use Case Diagram
+   - 설계 : UML의 Class Diagram, ERD 
+   		   UI 설계(디자인 작업-카카오오븐, 발사믹목업 or 그림판..)
+   - 구현 : Use Case 별 업무분담
+   		   Use Case 구현순서(include대상부터) : 아이디로 회원조회 -> 로그인, 로그아웃 -> 주소로 회원리스트 조회 -> 회원정보수정 -> 회원가입(아이디 중복확인)
+   
+   - File List : Model - MemberVO, MemberDAO
+   
+   				 View - css/home.css, index.jsp
+   				 		( 비로그인시 : 아이디로 회원조회폼, 로그인폼, 회원가입링크
+   				 		  로그인시 : 아이디로 회원조회폼, 주소로 회원리스트조회, 누구님(로그인폼을 대체), 로그아웃링크, 회원정보수정링크),
+   				 		1. 아이디로 회원조회 - findbyid-ok.jsp, findbyid-fail.jsp(alert)
+   				 		
+   				 		2. 로그인 - login-fail.jsp 에서 alert 후 index.jsp로 이동, 
+   				 				  로그인 성공시에는 index.jsp
+   				 		   로그아웃 - index.jsp에서 로그인 상태시에 링크 제공, 
+   				 		   		   로그아웃 성공되면 다시 index.jsp 로 이동 
+   				 		
+   				 		3. 주소로 회원리스트 조회 - index.jsp, 
+   				 		   조회결과 - findbyaddress-result.jsp( table 형식으로 회원아이디, 회원명을 제공 )
+   				 		
+   				 		4. 회원정보수정 - update-form.jsp( 수정폼 제공 ), 
+   				 					  update-result.jsp( 수정 결과 화면 )
+   				 		
+   				 		5. 회원가입 - register-form.jsp ( 회원가입폼 제공 ), 
+   				 				    register-result.jsp( 가입결과 화면 ), 
+   				 				    idcheck-ok.jsp( 팝업 ), 
+   				 				    idcheck-fail.jsp( 팝업 )
+   						
+   				 		
+   				 Controller - 1. FindMemberByIdServlet, 
+   				 			  2. LoginServlet, LogoutServlet,
+   				 			  3. FindMemberListByAddressServlet, 
+   				 			  4. UpdateMemberServlet,
+   				 			  5. RegisterMemberServlet, IdCheckServlet 
+
+
+	
+		
+▷ 아이디로 회원 검색 
+
+	index.jsp --- FindMemberByIdServlet --- MemberDAO		---------------  Database 
+						|							  findMemberById(id): MemberVO 	
+						| forward		
+						|
+						findbyid-ok.jsp or findbyid-fail.jsp					
+						
+					
+▷ 로그인 , 로그아웃 
+//로그인 로그아웃 무조건 redirect reason : forward 방식으로 하면 로그인을 한 후 refresh(F5), 즉, 재요청을 하면 request 객체가 그대로 
+//남아있기 때문에 로그인상태가 사라지고 다시 처음으로 돌아가 로그인 화면이 뜬다
+
+	1) 로그인 
+	index.jsp --- LoginServlet --- MemberDAO  ----------------- Database 					
+						|				 login(id,password) : MemberVO
+						| redirect
+						|		
+					 로그인 실패할 경우 login-fail.jsp 에서 로그인 실패 alert 후 index.jsp로 이동 
+					 로그인 성공할 경우 index.jsp로 이동 , 로그인 폼 대신 누구님 메세지와 아래 라인에 로그아웃 링크를 보여준다
+	2) 로그아웃 
+	index.jsp ---- LogoutServlet
+						|
+						|로그아웃 처리 후 
+						| redirect 
+						| 
+						index.jsp로 이동 ( 누구님 메세지와 로그아웃 링크 대신 로그인폼을 제공한다 ) 
+
+	3) 주소로 회원조회 
+	
+	index.jsp ------ FindMemberListByAddressServlet ------------ MemberDAO ----------------------  Database 
+									|
+									| request 객체에 리스트를 할당 			findMemberListByAddress(address) : ArrayList<MemberVO>
+									| forward 		
+									|								
+						    findbyaddress-result.jsp
+
+	
+	4) 회원정보수정
+	index.jsp ---- update-form.jsp ------ UpdateMemberServlet ------ MemberDAO
+																  	 update(MemberVO) : 없음
+										  doPost()
+										  MemberDAO를 이용해 DB에 회원정보를 수정
+										  세션에 저장된 회원정보를 업데이트
+										  |
+										  | redirect
+										  |
+										  update-result.jsp
+										  ------출력
+										  Home
+										  회원정보 수정 완료
+										  
+										  아이디: java
+										  이름: 아이유
+										  주소: 오리
+				
+				<input type="text" name="id" readonly="readonly" value="세션에 저장된 회원아이디">
+				<%-- readonly는 수정불가, 읽기전용 --%>
+			
+								
+	5) 회원가입 
+		
+		index.jsp ---- register-form.jsp --------------- RegisterMemberServlet ---------------- MemberDAO ----------- DB
+		
+					   비밀번호와 																	register(MemberVO)
+					   비밀번호 확인란을 입력하게 해서				doPost()
+					   일치할 때 가입하게 한다					  	   |
+					   										   | redirect
+					   										   |
+															register-result.jsp
+															( 회원가입을 축하합니다 ) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
