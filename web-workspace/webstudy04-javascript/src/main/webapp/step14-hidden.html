@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>hidden tag</title>
+	</head>
+	<body>
+	
+		<!-- 
+				hidden tag는 사용자 화면에 보이지 않는 속성 
+				
+				용도 : - 서버로 특정 name과 value를 할당해 전달하고자 할 때 사용
+					  - javascript로 특정 정보를 제어하고자 할 때 사용 (ex. 회원가입시 아이디 중복확인 여부를 저장)
+					  - value 상태를 바꿔주어 정보 상태를 제어한다
+					  
+					  - hidden 을 통해 어떤 폼에서 던졌는지 확인 가능 
+	-->
+		<form action="step14-hidden-action.jsp">
+			<input type="hidden" name="command" value="insert">
+			<button>전송1</button>
+			<!-- button tag 는 별도의 type을 명시하지 않으면 기본 타입이 submit -->
+		</form>
+		<hr>
+		<!-- 한 페이지에 폼이 여러 개 가능 -->
+		<form action="step14-hidden-action.jsp">
+			<input type="hidden" name="command" value="delete">
+			<button>전송2</button>
+			<!-- button tag 는 별도의 type을 명시하지 않으면 기본 타입이 submit -->
+		</form>
+		<hr>
+		<table border="1">
+			<tr>
+				<td>2</td>
+				<td>즐거운 화요일</td>
+				<td>
+					<form action="step14-hidden-action2.jsp">
+						<input type="hidden" name="no" value="2">
+						<button>삭제</button>
+					
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>즐거운 수요일</td>
+				<td>
+					<form action="step14-hidden-action2.jsp">
+						<input type="hidden" name="no" value="1">
+						<button>삭제</button>
+					
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
+
+
+

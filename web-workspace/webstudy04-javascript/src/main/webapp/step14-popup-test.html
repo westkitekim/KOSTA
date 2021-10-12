@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step14-popup-test.html</title>
+</head>
+<body>
+	<!-- 팝업창을 띄우는 html javascript 연습예제 -->
+	<!-- 팝업창에서 자신을 띄워준 부모창에 접근하여 값 제어하는 것은 opener -->
+	
+	<script type="text/javascript">
+		function openPopup() {
+			//alert(1);
+			//파일명, 팝업창 이름,
+			let nickComp = document.getElementById("nick");
+			if(nickComp.value == "") {
+				alert("닉네임을 입력하세요!");
+				nickComp.focus();
+			}else {
+				//팝업창을 띄울 때 server로 닉네임을 전달하려고 한다 : query string 이용
+				window.open("step15-popup.jsp?nick=" + nickComp.value, "mypopup", "width=250, height=150, top=150, left=400");
+			}
+		}
+		function showHidden() {
+			alert(document.getElementById("flag").value);
+			
+		}
+	</script>
+	
+	<form>
+		<!-- name, id로 접근하는 방법 있음 hidden, 서버에 사용하려면 name잇어야 -->
+		<!-- id가 편한 이유?  -->
+		<input type="text" id="nick" name="nickName">
+		<input type="hidden" id="flag" value="">
+		<input type="button" value="팝업창 띄우기" onclick="openPopup()">	
+		<input type="button" value="히든값확인" onclick="showHidden()">	
+		
+	</form>
+</body>
+</html>
