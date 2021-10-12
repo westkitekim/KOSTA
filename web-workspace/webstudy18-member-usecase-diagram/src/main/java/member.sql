@@ -8,6 +8,10 @@ select name, address from member where id='java1' and password='a';
 
 -- DAO, 강사님 sql
 select name address from member where id=? and password=?;
+
+-- 아이디 중복확인 sql : 아이디가 존재하면 1, 존재하지 않으면 0
+select count(*) from member where id = 'java99';
+
 -- DAO2 다른 sql
 -- id에서 조회하고 서블릿에서 해결하는 방법
 select password, name, address from member where id=?;
@@ -26,4 +30,12 @@ update member set password = 'j' and name = '이제훈' and address = '의정부
 
 -- 회원가입 정보 등록
 insert into member(id, password, name, address) values ('ruby', 'r', '홍길동', '산골짜기');
+
+
+
+
+
+
+
+
 

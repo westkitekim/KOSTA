@@ -166,6 +166,55 @@ public class MemberDAO {
 			
 		}
 	}
+	/* 내 풀이
+	public boolean idCheck(String id) throws SQLException {
+		boolean flag = false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(url, username, userpass);
+
+			String sql = "select id from member where id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				if(rs.getString(1).equals(id)) flag = true;
+			}
+			
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+		
+		return flag;
+	}
+	*/
+	
+	public boolean idCheck(String id) throws SQLException {
+		boolean result = false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(url, username, userpass);
+			//column으로 뽑지 않고 개수로 뽑는다(primary로 조회하기 때문에 0 아니면 1)
+			String sql = "select count(*) from member where id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			//조회정보가 1이면 아이디가 존재하므로 true 할당
+			//rs.next() 반환값은 boolean
+			if(rs.next() && rs.getInt(1) == 1) {
+				result = true;
+			}
+			
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+		
+		return result;
+	}
 	
 }
 

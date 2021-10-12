@@ -76,6 +76,7 @@ public class UpdateMemberServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		//오랜시간 작업을 하지 않아 세션이 사라졌을 경우 등 세션이 없는 경우의 수를 미리 체크해준다
 		//if는 로그인 상태가 아닌 경우 = session 객체가 없는 경우
+		//애초에 세션이 생성되지 않았거나, mvo라는 이름의 세션객체가 없는 경우 구현
 		if(session == null || session.getAttribute("mvo") == null) {
 			response.sendRedirect("index.jsp");//index로 보낸다
 			return;//return; keyword는 메서드 실행을 종료
@@ -84,7 +85,7 @@ public class UpdateMemberServlet extends HttpServlet {
 		}
 		//post 방식으로 전송한 데이터는 http request body에 저장되어 별도의 한글처리가 필요하다
 		request.setCharacterEncoding("utf-8");
-		//각각 jsp에서 입력한 들을 가져오는 것 
+		//각각 jsp에서 입력한 데이터들을 가져와 변수에 할당
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
@@ -93,6 +94,7 @@ public class UpdateMemberServlet extends HttpServlet {
 		try {
 			//먼저 update된 VO객체 생성후 DAO 객체의 updateMember()메서드를 통해 db업데이트
 			MemberVO vo = new MemberVO(id, password, name, address);
+			//DAO에서 왜 exception 처리를 해줄까? 
 			MemberDAO.getInstance().updateMember(vo);//db에 회원정보를 수정한다
 			
 			//세션에 저장된 회원정보를 수정한다

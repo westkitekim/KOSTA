@@ -4,7 +4,7 @@
 	padding-left: 50px;
 	padding-right: 50px;
 	/*중앙정렬*/
-	display: grid;
+	/* display: grid; */
 	place-content: center;
 }
 /*밑줄 제거 데코 none*/
