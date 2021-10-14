@@ -1,0 +1,64 @@
+***********************************************************************************************************************************
+
+●●●●● webstudy20-front-controller-pattern-step3 ●●●●●
+
+◆ webstudy20-front-controller-pattern-step3 에서는 step2 까지 설계, 구현한 내용을 
+  다시 한번 구현해본 후 업데이트한다
+
+▣ FrontControllerServlet
+
+	▷ ver1 : doDistpatch() 메서드에서 모든 요청을 처리
+	
+	▷ ver2 : 개별 요청 처리를 별도의 메서드로 분화 
+			 findCarByNo(), registerCar()
+			 doDispatch() 메서드에서 호출해서 이용
+			 
+	▷ ver3 : 개별 요청 처리를 별도의 클래스로 분화(별도의 클래스에서 담당)
+			 별도의 클래스를 표준화, 캡슐화 하기 위해 인터페이스를 설계
+			 FrontControllerServlet은 표준화된 인터페이스의 추상메서드를 호출하여 
+			 개별 컨트롤러 로직을 정의한 객체를 실행
+			 
+			 client --- FrontControllerServlet   -----	  Controller Interface
+			 											    |			  |
+			 											    |			  |
+			 									   FindCarController  RegisterController
+			 											  
+	▷ ver4 :	 											  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
