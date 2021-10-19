@@ -1,0 +1,109 @@
+***********************************************************************************************************************************
+
+●●●●● webstudy20-front-controller-pattern-step3 ●●●●●
+
+◆ webstudy20-front-controller-pattern-step3 에서는 step2 까지 설계, 구현한 내용을 
+  다시 한번 구현해본 후 업데이트한다
+
+▣ FrontControllerServlet
+
+	▷ ver1 : doDistpatch() 메서드에서 모든 요청을 처리
+	
+	▷ ver2 : 개별 요청 처리를 별도의 메서드로 분화 
+			 findCarByNo(), registerCar()
+			 doDispatch() 메서드에서 호출해서 이용
+			 
+	▷ ver3 : 개별 요청 처리를 별도의 클래스로 분화(별도의 클래스에서 담당)
+			 별도의 클래스를 표준화, 캡슐화 하기 위해 인터페이스를 설계
+			 FrontControllerServlet은 표준화된 인터페이스의 추상메서드를 호출하여 
+			 개별 컨트롤러 로직을 정의한 객체를 실행
+			 
+			 client --- FrontControllerServlet   -----	  Controller Interface
+			 											    |			  |
+			 											    |			  |
+			 									   FindCarController  RegisterController
+			 											  
+
+***********************************************************************************************************************************
+
+●●●●● webstudy20-front-controller-pattern-step4 ●●●●●
+
+◆ 이미지의 Handler Mapping 이 FrontControllerServlet의 해당하는 히든값에 따른 if 분기 코드부분임
+  command를 모아 데이터 적재, 서비스에 대한 인증의 유무에 대한 정보를 담기 위한 클래스로 HandlerMapping 사용
+  역할 : 실제 컨트롤러를 생성하는 객체 공장, 스프링에서도 동일하게 동작 - 스프링에서는 설정만 이해하고 가면 됨 - execute 알맹이만 구현하면 됨
+◆ webstudy20-front-controller-pattern-step4 에서는 step2 까지 설계, 구현한 내용을 
+  다시 한번 구현해본 후 업데이트한다
+  
+▣ 기존 step3의 구조
+	
+		 client --- FrontControllerServlet   -----	  Controller Interface
+		 											    |			  |
+		 											    |			  |
+		 									   FindCarController  RegisterController	
+		 									   
+	▷ ver4 개선점: 만약 서비스가 추가되거나 변경되어야 한다면
+				 FrontControllerServlet의 컨트롤러 객체 생성부는 추가되거나 변경되어야 한다
+				 FrontControllerServlet과 컨트롤러 객체의 결합도는 높은 상태
+				 ==> 이를 해결하기 위해 컨트롤러 객체 생성을 전담하는 HandlerMapping을 정의한다
+
+		 client --- FrontControllerServlet ----- HandlerMapping -----	 Controller Interface
+		 											   					   |			  |
+		 											    				   |			  |
+		 									   					 FindCarController  RegisterController				
+▣ 컨트롤러 영역의 요소 
+  	- FrontControllerServlet : 모든 클라이언트의 요청을 통합하는 진입점의 역할을 하는 서블릿 
+  
+  	- HandlerMapping : 개별 컨트롤러  구현체들의 생성을 전담하는 객체 ( Factory )
+  					   ( spring framework 에서도 이런 역할을 하는 객체를 HandlerMapping 이라고 말한다 )
+  					 
+  	- Controller Interface : 컨트롤러 구현체들의 상위 인터페이스, 캡슐화, 표준화, 다형성 지원	 
+  	
+  	▷ 개별 Controller 구현체 : 실제 클라이언트의 요청을 처리하는 객체
+  
+  
+  step4 : 개인 웹사이트수준이 아니라 서비스 단위가 대량으로 많아지는 경우로 생각
+  struts framework in java -- 검색어
+  FrontControllerServlet이 사장님이라 생각
+  자동화??! 
+  step4 : 개별 컨트롤러 객체 생성로직도 분리하는 작업 
+  // 더이상 FrontControllerServelt을 손대지 않는다 
+
+	▷ ver4 :	 											  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
