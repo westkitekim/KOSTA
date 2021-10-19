@@ -1,0 +1,164 @@
+***********************************************************************************************************************************
+
+●●●●● webstudy20-front-controller-pattern-step3 ●●●●●
+
+◆ webstudy20-front-controller-pattern-step3 에서는 step2 까지 설계, 구현한 내용을 
+  다시 한번 구현해본 후 업데이트한다
+
+▣ FrontControllerServlet
+
+	▷ ver1 : doDistpatch() 메서드에서 모든 요청을 처리
+	
+	▷ ver2 : 개별 요청 처리를 별도의 메서드로 분화 
+			 findCarByNo(), registerCar()
+			 doDispatch() 메서드에서 호출해서 이용
+			 
+	▷ ver3 : 개별 요청 처리를 별도의 클래스로 분화(별도의 클래스에서 담당)
+			 별도의 클래스를 표준화, 캡슐화 하기 위해 인터페이스를 설계
+			 FrontControllerServlet은 표준화된 인터페이스의 추상메서드를 호출하여 
+			 개별 컨트롤러 로직을 정의한 객체를 실행
+			 
+			 client --- FrontControllerServlet   -----	  Controller Interface
+			 											    |			  |
+			 											    |			  |
+			 									   FindCarController  RegisterController
+			 											  
+
+***********************************************************************************************************************************
+
+●●●●● webstudy20-front-controller-pattern-step4 ●●●●●
+
+◆ 이미지의 Handler Mapping 이 FrontControllerServlet의 해당하는 히든값에 따른 if 분기 코드부분임
+  command를 모아 데이터 적재, 서비스에 대한 인증의 유무에 대한 정보를 담기 위한 클래스로 HandlerMapping 사용
+  역할 : 실제 컨트롤러를 생성하는 객체 공장, 스프링에서도 동일하게 동작 - 스프링에서는 설정만 이해하고 가면 됨 - execute 알맹이만 구현하면 됨
+◆ webstudy20-front-controller-pattern-step4 에서는 step2 까지 설계, 구현한 내용을 
+  다시 한번 구현해본 후 업데이트한다
+  
+▣ 기존 step3의 구조
+	
+		 client --- FrontControllerServlet   -----	  Controller Interface
+		 											    |			  |
+		 											    |			  |
+		 									   FindCarController  RegisterController	
+		 									   
+	▷ ver4 개선점: 만약 서비스가 추가되거나 변경되어야 한다면
+				 FrontControllerServlet의 컨트롤러 객체 생성부는 추가되거나 변경되어야 한다
+				 FrontControllerServlet과 컨트롤러 객체의 결합도는 높은 상태
+				 ==> 이를 해결하기 위해 컨트롤러 객체 생성을 전담하는 HandlerMapping을 정의한다
+
+		 client --- FrontControllerServlet ----- HandlerMapping -----	 Controller Interface
+		 											   					   |			  |
+		 											    				   |			  |
+		 									   					 FindCarController  RegisterController				
+▣ 컨트롤러 영역의 요소 
+  	▷ FrontControllerServlet : 모든 클라이언트의 요청을 통합하는 진입점의 역할을 하는 서블릿 
+  
+  	▷ HandlerMapping : 개별 컨트롤러  구현체들의 생성을 전담하는 객체 ( Factory )
+  					   ( spring framework 에서도 이런 역할을 하는 객체를 HandlerMapping 이라고 말한다 )
+  					 
+  	▷ Controller Interface : 컨트롤러 구현체들의 상위 인터페이스, 캡슐화, 표준화, 다형성 지원	 
+  	
+  	▷ 개별 Controller 구현체 : 실제 클라이언트의 요청을 처리하는 객체
+  
+  //
+  step4 : 개인 웹사이트수준이 아니라 서비스 단위가 대량으로 많아지는 경우로 생각
+  struts framework in java -- 검색어
+  FrontControllerServlet이 사장님이라 생각
+  자동화??! 
+  step4 : 개별 컨트롤러 객체 생성로직도 분리하는 작업 
+  // 더이상 FrontControllerServelt을 손대지 않는다 
+	 											  
+
+
+***********************************************************************************************************************************
+
+●●●●● webstudy21-front-controller-pattern-step5 ●●●●●
+
+▣ step5
+
+	step4 에서 HandlerMapping 을 추가하여 컨트롤러 객체 생성을 전담시켰다 
+	 
+	▷ ver5 개선점: 이후 서비스가 확장되어 컨트롤러가 추가될 경우 매번 HandlerMapping의 create 메서드의 
+				 객체 생성하는 부분의 코드가 추가되어야 한다
+				 --> Reflection API 를 이용해 컨트롤러 객체 생성을 런타임시에 자동화 시키도록 프로그램을 업데이트한다(spring 에서도 사용)
+				 
+	▷ Reflection : 런타임 시점에 동적으로 객체를 제어 ( 지금은 동적으로 객체를 생성하는 것으로 사용 )
+				   명령하면 동적으로 컨트롤러를 만들어주도록 할 수 있다
+				   // create()의 if else if else if... 없이 사용가능
+				   
+				   테스트 예제 -> test.reflection.TestAutoCreateInstance 에서 확인한 후 HandlerMapping에 반영
+	
+	client --- FrontControllerServlet --- HandlerMapping    --- 	Controller Interface
+																	|					|
+														FindCustomerByIdController	 RegisterCustomerController
+
+
+***********************************************************************************************************************************
+
+●●●●● webstudy22-front-controller-pattern-step6 ●●●●●
+
+- 프로젝트 복사시에 url 변경이 안될경우 server.xml에서 확인 
+
+▣ step6 : *.do 스타일로 변경
+		  
+▣ step5까지의 command를 컨트롤러명.do 의 요청 스타일로 변경하면 조금 더 간결한 반식으로 요청할 수 있다는 장점이 있음
+  예) <form action="FindCustomerByIdController.do">
+  	  - 별도의 hidden tag 나 query string을 명시하지 않고도 command를 서버에 전달할 수 있음
+  	  
+  	  client에서 .do 스타일로 요청하고 FrontControllerServlet에서 요청을 처리하는 방식에 대한 공부와 단위테스트는 
+  	  별도의 프로젝트에서 해본다 ( webstudy22-front-do-unit-test )
+  	  -> 이에 기반하여 현재 프로젝트를 *.do 스타일로 변경해본다
+
+	▷ 기존 step5
+	
+		- 클라이언트의 요청시 command를 hidden tag 또는 query string 방식으로 전달
+		  -> 서버로 전송하는 command가 실제 컨트롤러명이 되는 구조 
+		  
+		  예1) form 전송시
+		  
+			  <form action="FrontControllerServlet">
+			  	   <input type="hidden" name="command" value="FindCustomerByIdController">
+			  	   ...
+			  </form>
+		  
+		  예2) 링크를 이용한 요청시
+		  
+		 	  <a href="FrontControllerServlet?command=FindCustomerByIdController&id=java">...</a>
+		  
+		  
+***********************************************************************************************************************************
+
+●●●●● webstudy23-date ●●●●●
+
+▣ MVC + Front Controller Design Pattern 상에서 Database 의 date 형을 이용
+  SQL 함수 : to_char() 와 to_date() 함수를 학습하고 적용
+  
+▣ 링크 부여시에 컨트롤러 url과 query string 이용해서 상품 상세 컨트롤러로 동작되도록 명시
+  <td><a href="FindProductByIdController.do?productId=<%=list.get(i).getId()%>"><%=list.get(i).getName()%> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
