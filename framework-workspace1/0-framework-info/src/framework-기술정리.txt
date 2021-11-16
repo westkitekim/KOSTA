@@ -1,0 +1,114 @@
+**Framework** 
+주요목차
+- Spring DI ( IOC )
+- Spring AOP
+- MyBatis Framework
+- SpringMVC ( Spring Legacy project )
+- Ajax / JQuery / JSON / REST(스프링클라우드, 마이크로 아키텍쳐 등에서 많이 사용)
+- SpringBoot
+- Thymeleaf(JSP 후에 나온 기술, 퍼블리셔 디자인과 협업하기 좋고, 유지보수에도 좋음, JSP로도 할 수 있지만 타임리프를 선호한다. 기본 제공되는 기술)
+  Thyme : 허브..? 백리향...?
+- SpringSecurity
+
+< 파이널 후 진행되는 과정 > 
+- Spring Cloud ( MSA ) , RestTemplate, JPA(sql과 mybatis를 잘 아는 상태에서 공부해야함)  
+
+---------------------------------------------------------------------------------------------------------------------
+
+▣ 개념정리
+  높은 응집도 (high cohesion),	낮은(느슨한) 결합도 ( loose coupling ) 
+  "모듈 간의 결합도는 최소화하고 모듈 내 요소들 간의 응집도를 최대화" 
+
+  ▷ 응집도 : 자신의 역할에 집중하는 정도(프로젝트의 기본 개념이자 원리) 
+		   모듈 내의 기능 수행을 위해 요소간에 얼마만큼 연관된 책임이 집중되어 있는지를 나타내는 정도
+  ▷ 결합도 : 모듈 간의 상호 의존 정도
+
+
+  ▷ 객체 지향 ( Object-Oriented ) 
+  	- 시스템 분석 설계 기법
+  	- 객체를 독립적인 기본단위로 채택하고, 객체와 객체의 관계를 중심으로 분석, 설계하는 기법 
+  	
+  ▷ Class : Object의 설계도
+  ▷ Object : 속성과 기능으로 구성, 시스템의 기본 단위 
+  ▷ package : 클래스들을 분류 
+  ▷ library : 라이브러리, 재사용 가능한 프로그램들의 모음 ( jar : 자바 프로그램 압축 파일 확장자 ) 
+  
+  ▷ component : 프로그램이 실행될 때 하나의 독립적 기능단위를 이루어 부품화되는 것 (java에서는 Bean 이라고 표현, bean : 자바 컴포넌트) 
+    라이브러리와 컴포넌트 혼용해서 사용 - 라이브러리가 컴포넌트가 될 수 있고 컴포넌트가 라이브러리가 될 수 있음 -> 어떤 측면에서 보느냐에 따라 달라진다 
+    
+  ▷ API : Application Programming Interface
+  		  응용프로그램을 개발하기 위해 제공하는 인터페이스(서비스를 제공해주는 것, 응용프로그램 신속하게 개발하기 위해 제공해줌) 
+ 
+ 
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★    
+
+  ▷ Framework
+  	- 사전적 의미 : 뼈대, 틀, 기반(infrastructure)
+  	
+  ▷ Spring Framework
+    - java 어플리케이션의 설계, 구현, 테스트, 운영(maintanance, 유지보수) 전반에 대한 기반(infrastructure)을 제공 
+  	- 다양한 컴포넌트(or 라이브러리)를 제공하고 디자인 패턴을 지원한다
+  	- 프레임워크는 반완전한 어플리케이션이다 => 개발자는 비즈니스 로직에 집중하도록 하는 것이 목적 ! 
+  	
+  	- IOC/DI, AOP, MVC, Security, SpringBoot 등을 지원하고 
+  	  MyBatis, JUnit 등과 같은 오픈 소스 프레임워크와의 통합을 지원한다
+  
+  ▷ Spring
+  ▷ IOC : Inversion Of Control, 제어의 반전(역행), 역제어 // 반대로 진행(전개)된다, ex. Tenet
+  		  컴포넌트를 구성하는 인스턴스 생성과 의존 관계 연결처리를 IOC 컨테이너에 위임한다
+  		  
+  ▷ DI : Dependency Injection, 의존성 주입 // IOC 실현 방법 중에 DI 가 있다
+  		 필요로 하는 의존대상(컴포넌트 or 객체 or bean)을 injection(주입)을 통해 확보한다
+  
+  ▷ DL : Dependency Lookup, 의존성 검색 
+  		 필요로 하는 의존대상(컴포넌트 or 객체 or bean)을 lookup(검색)을 통해 확보한다
+
+  ▷ IOC, DI, DL 의 목적 -> ★★★ Loose Coupling (느슨한 결합도)
+  
+  ▷ 예제는 xml로 먼저 진행 후 단계별로 상승
+  
+  < Wikipedia >
+  In software engineering, inversion of control (IoC) is a programming principle. 
+  IoC inverts the flow of control as compared to traditional control flow. 
+  In IoC, custom-written portions of a computer program receive the flow of control from a generic framework.
+
+  ▷ Spring IOC Container 는 Singleton 방식으로 객체를 운용한다
+    참고) Singleton Design Pattern : 시스템 상에서 단 하나의 객체를 생성하고 공유해 사용하기 위한 디자인 패턴
+
+
+  ▷ Maven : 
+    - 의존 라이브러리 ( dependency library ) 를 일괄적으로 관리 
+  	- 원격 저장소에 있는 라이브러리를 한번 로컬 저장소에 저장해 재사용한다 
+    - 설정파일은 pom.xml 이고 필요한 라이브러리를 이곳에 추가해서 사용한다 
+    
+  ▷ Maven(메이븐) = Dependency Management
+
+	1. 의존성 관리
+	2. 어플리케이션이 필요한 많은 라이브러리를 일괄적으로 관리
+
+	pom.xml 에서 설정한다
+
+	- pom(project object model)
+	
+	pom.xml 에 필요한 외부라이브러리를 설정하면,
+	원천사이트에서 원격으로 한번 로컬라이브러리 저장소에 저장하고,
+	이를 지속적으로 사용할 수 있다
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
