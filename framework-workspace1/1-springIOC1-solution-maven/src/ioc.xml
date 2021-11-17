@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- Spring Container가 bean을 읽는다, 읽어서 객체 생성, 만든 것을 받아올 수 있음 -->
+<bean id="tool" class="model.Spade"></bean>
+
+
+</beans>
