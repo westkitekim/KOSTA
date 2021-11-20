@@ -53,23 +53,23 @@
 
 
 - 설계 :   DB Modeling -> ERD ( 논리 , 물리 )
-			Application Modeling -> Class Diagram 
-			UI 설계 
-			File List : Model , Controller -> 클래스 다이어그램 
-						View File List
-						css/myhome.css 
+		  Application Modeling -> Class Diagram 
+		  UI 설계 
+		  File List : Model , Controller -> 클래스 다이어그램 
+					  View File List
+					  css/myhome.css 
 												
-						index.jsp : forward HomeController 
+					  index.jsp : forward HomeController 
 						
-						header.jsp : 상단부 메뉴 ( 비로그인시 - 로그인폼 ,로그인시 회원명,로그아웃,글쓰기 제공 )  
-						layout.jsp : 레이아웃 페이지 ( 단위테스트 - import-test 디렉토리 하에서 테스트 ) 
+					  header.jsp : 상단부 메뉴 ( 비로그인시 - 로그인폼 ,로그인시 회원명,로그아웃,글쓰기 제공 )  
+					  layout.jsp : 레이아웃 페이지 ( 단위테스트 - import-test 디렉토리 하에서 테스트 ) 
 						
-						board/list.jsp : 게시물 리스트  
-						board/write.jsp : 글쓰기 
-						board/post-detail.jsp : 상세글보기 
-						board/update.jsp : 수정폼 제공 
+					  board/list.jsp : 게시물 리스트  
+					  board/write.jsp : 글쓰기 
+					  board/post-detail.jsp : 상세글보기 
+					  board/update.jsp : 수정폼 제공 
 						
-						member/login-fail.jsp : 로그인 실패시 alert 
+					  member/login-fail.jsp : 로그인 실패시 alert 
 						 
 			
 - 구현 : DB DDL 

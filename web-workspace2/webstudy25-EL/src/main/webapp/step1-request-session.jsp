@@ -24,7 +24,7 @@
 	%>
 		1. 기존 방식으로 표현 : 
 	<%
-		FoodVO fvo = (FoodVO)request.getAttribute("fvo");
+		FoodVO fvo = (FoodVO)request.getAttribute("fvo");//down casting
 		FoodVO fvo2 = (FoodVO)session.getAttribute("food");
 	%><%=fvo.getName() %>	<%=fvo.getPrice() %>
 	  <%=fvo2.getName() %>	<%=fvo2.getPrice() %>
@@ -41,7 +41,7 @@
 		3. 동일한 name 의 정보를 request와 session에서 EL로 정보를 확인 : 
 		<%-- 
 				아래와 같이 별도의 Scope를 명시하지 않으면 request 영역에 있는 정보를 반환한다
-				request < session < application(ServletContext) 순으로 작은 범위의 값이 출력된다
+				request < session < application(ServletContext) 순으로 작은 범위의 값이 우선적으로 출력된다
 		--%>
 			${test.name } ${test.price } <%-- 떡볶이 2000 출력 --%>
 		<%-- 

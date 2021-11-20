@@ -1096,7 +1096,36 @@ FrontController에서 각각의 Controller의 method를 보지 않고 호출할 
 																	|					|
 														FindCustomerByIdController	 RegisterCustomerController
 
+***********************************************************************************************************************************
+●●●●● webstudy22-front-controller-pattern-step6 ●●●●●
 
+- 프로젝트 복사시에 url 변경이 안될경우 Server project의 server.xml에서 재확인 
+
+▣ step6 : *.do 스타일로 변경
+		  
+▣ step5까지의 command를 컨트롤러명.do 의 요청 스타일로 변경하면 조금 더 간결한 반식으로 요청할 수 있다는 장점이 있음
+  예) <form action="FindCustomerByIdController.do">
+  	  - 별도의 hidden tag 나 query string을 명시하지 않고도 command를 서버에 전달할 수 있음
+  	  
+  	  client에서 .do 스타일로 요청하고 FrontControllerServlet에서 요청을 처리하는 방식에 대한 공부와 단위테스트는 
+  	  별도의 프로젝트에서 해본다 ( webstudy22-front-do-unit-test )
+  	  -> 이에 기반하여 현재 프로젝트를 *.do 스타일로 변경해본다
+
+	▷ 기존 step5
+	
+		- 클라이언트의 요청시 command를 hidden tag 또는 query string 방식으로 전달
+		  -> 서버로 전송하는 command가 실제 컨트롤러명이 되는 구조 
+		  
+		  예1) form 전송시
+		  
+			  <form action="FrontControllerServlet">
+			  	   <input type="hidden" name="command" value="FindCustomerByIdController">
+			  	   ...
+			  </form>
+		  
+		  예2) 링크를 이용한 요청시
+		  
+		 	  <a href="FrontControllerServlet?command=FindCustomerByIdController&id=java">...</a>
 
 
 

@@ -36,3 +36,52 @@
        </c:forEach>
     </tbody>
   </table>
+  
+  <%-- 페이징 처리(bootstrap pagination --%>
+  <ul class="pagination justify-content-center" style="margin:20px 0">
+  <%-- is계열은 boolean 형으로 반환 --%>
+  <c:if test="${pagingBean.previousPageGroup }">
+  	<%-- querystring 방식으로 요청, 이전그룹의 마지막 번호로 이동 --%>
+  	<li class="page-item"><a class="page-link" href="ListController.do?pageNo=${pagingBean.startPageOfPageGroup - 1}">Previous</a></li>
+  </c:if>
+  
+  <c:forEach begin="${pagingBean.startPageOfPageGroup }" end="${pagingBean.endPageOfPageGroup }" var="page">
+  	
+  	<c:choose>
+  	  <%-- 현재페이지와 같으면 --%>
+  	  <c:when test="${page == pagingBean.nowPage }">
+  	  	<li class="page-item active"><a class="page-link" href="ListController.do?pageNo=${page }">${page }</a></li>
+  	  </c:when>
+  	  <c:otherwise>
+  	    <li class="page-item"><a class="page-link" href="ListController.do?pageNo=${page }">${page }</a></li>
+  	  </c:otherwise>
+  	</c:choose>
+  	
+  	
+  </c:forEach>
+  
+  
+  <c:if test="${pagingBean.nextPageGroup }">
+  	<li class="page-item"><a class="page-link" href="ListController.do?pageNo=${pagingBean.endPageOfPageGroup + 1}">Next</a></li>
+  </c:if>
+  </ul>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

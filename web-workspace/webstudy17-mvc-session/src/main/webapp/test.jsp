@@ -17,7 +17,7 @@
 		}else {
 			
 		}
-		response.sendRedirect(location);
+		//response.sendRedirect(location);
 		
 		%>
 	</body>

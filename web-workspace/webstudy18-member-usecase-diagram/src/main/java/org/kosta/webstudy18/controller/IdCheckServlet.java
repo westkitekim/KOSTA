@@ -47,7 +47,8 @@ public class IdCheckServlet extends HttpServlet {
 			//아이디가 존재하면 사용할 수 없으므로 idcheck-fail로 이동
 			if(result) {//if(result == true)
 				path = "idcheck-fail.jsp";
-			} else {
+			}else {
+				String a = "a,b,c";
 				path = "idcheck-ok.jsp";
 			}
 			request.getRequestDispatcher(path).forward(request, response);

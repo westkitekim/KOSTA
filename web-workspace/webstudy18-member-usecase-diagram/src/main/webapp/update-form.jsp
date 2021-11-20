@@ -25,9 +25,6 @@
 		<%
 		} else {
 			response.sendRedirect("index.jsp");//로그인 상태가 아니면 index.jsp로 이동시킨다(참고사항)
-			
-			
-		
 		}%>
 		</div>
 	</body>

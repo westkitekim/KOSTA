@@ -25,7 +25,7 @@ public class TestAutoCreateInstance {
 		try {
 			//System.out.println(Class.forName(info).newInstance());;// return 클래스 객체 : Class.forName(), newInstance() : 객체생성
 			//System.out.println(Class.forName(info2).newInstance());
-			Player p1 = (Player)Class.forName(info).newInstance();//level을 인터페이스까지 다운캐스팅
+			Player p1 = (Player)Class.forName(info).newInstance();//level을 player 인터페이스까지 다운캐스팅
 			p1.play();
 			Player p2 = (Player)Class.forName(info2).newInstance();
 			p2.play();

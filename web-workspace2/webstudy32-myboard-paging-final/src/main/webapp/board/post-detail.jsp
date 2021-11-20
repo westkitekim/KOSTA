@@ -40,7 +40,7 @@
 					}
 				</script>
 				<form action="DeletePostController.do" id="deleteForm" method="post"> 
-					<%-- 게시물 번호 들고가기 , 게시물 번호를 들고가야 하는 이유? --%>
+					<%-- 게시물 번호 들고가기 , 게시물 번호를 들고가야 하는 이유: 해당하는 게시글 삭제 및 수정하기 위함 --%>
 					<input type="hidden" name="no" value="${pvo.no }">
 				</form>
 				<form action="UpdatePostFormController.do" id="updateForm" method="post"> 

@@ -27,7 +27,7 @@ public class PagingBeanEx {
 	/**
 	 * 페이지 그룹당 페이지수
 	 */
-	private int pageCountPerPageGroup = 4;
+	private int  pageCountPerPageGroup = 4;
 	/**
 	 * database에 저장된 총게시물수
 	 */
@@ -95,16 +95,27 @@ public class PagingBeanEx {
 	 */
 	private int getTotalPage() {
 		int totalPage = 0;
-		//
+		if(this.totalPostCount % this.postCountPerPage == 0)
+			totalPage = this.totalPostCount / this.postCountPerPage;
+		else 
+			//totalPage += 1;
+			totalPage = this.totalPostCount / this.postCountPerPage + 1;
 		return totalPage;
+		/*
+		int result = totalPostCount / postCountPerPage;
+		int test = totalPostCount % postCountPerPage;
+		if (test  == 0) totalPage = result;
+		else totalPage = result + 1;
+		return totalPage;
+		*/
 	}
 
 	/**
 	 * 총 페이지 그룹의 수를 return한다.<br>
 	 * 1. 총 페이지수 % Page Group 당 Page 수. <br>
-	 * => 0 이면 둘을 / 값이 총 페이지 수<br>
+	 * => 0 이면 둘을 / 값이 총 페이지 그룹수<br>
 	 * 2. 총 페이지수 % Page Group 당 Page 수. <br>
-	 * => 0보다 크면 둘을 / 값에 +1을 한 값이 총 페이지 수<br>
+	 * => 0보다 크면 둘을 / 값에 +1을 한 값이 총 페이지 그룹수<br>
 	 * ex) 총 게시물 수 23 개 <br>
 	 * 총 페이지 ? 총 페이지 그룹수 ? <br>
 	 * 페이지 1 2 3 4 5<br>
@@ -113,7 +124,10 @@ public class PagingBeanEx {
 	 */
 	private int getTotalPageGroup() {
 		int totalPageGroup = 0;
-		//
+		if(this.getTotalPage() % this.pageCountPerPageGroup == 0)
+			totalPageGroup = this.getTotalPage() / this.pageCountPerPageGroup;
+		else 
+			totalPageGroup = this.getTotalPage() / this.pageCountPerPageGroup + 1;
 		return totalPageGroup;
 	}
 
@@ -129,7 +143,10 @@ public class PagingBeanEx {
 	 */
 	private int getNowPageGroup() {
 		int nowPageGroup = 0;
-		//
+		if(this.nowPage % this.pageCountPerPageGroup == 0)
+			nowPageGroup = this.nowPage / this.pageCountPerPageGroup;
+		else 
+			nowPageGroup = this.nowPage / this.pageCountPerPageGroup + 1;
 		return nowPageGroup;
 	}
 
@@ -140,11 +157,13 @@ public class PagingBeanEx {
 	 * 페이지 그룹 <br>
 	 * 1 2 3 4 || 5 6 7 8 || 9 10 <br>
 	 * 
+	 * 1그룹		2그룹		 3그룹
+	 * ex) 현재 페이지 8 이면 이전페이지 그룹의 마지막 번호는 4 이고 여기에 +1 하면 시작페이지 번호가 된다
+	 * 
 	 * @return
 	 */
 	public int getStartPageOfPageGroup() {		
-		//
-		return 0;
+		return (this.getNowPageGroup() - 1) * this.pageCountPerPageGroup + 1;
 	}
 
 	/**
@@ -152,12 +171,17 @@ public class PagingBeanEx {
 	 * 1. 현재 페이지 그룹 * 페이지 그룹 개수 가 마지막 번호이다. <br>
 	 * 2. 그 그룹의 마지막 페이지 번호가 전체 페이지의 마지막 페이지 번호보다 <br>
 	 * 큰 경우는 전체 페이지의 마지막 번호를 return 한다.<br>
+	 * 
+	 * 마지막 그룹의 조건만 계산해준다
+	 * 
 	 * 1 2 3 4 || 5 6 7 8 || 9 10
 	 *  1그룹        2그룹       3그룹 
 	 * @return
 	 */
 	public int getEndPageOfPageGroup() {
-		int endPage = 0;
+		int endPage = this.getNowPageGroup() * this.pageCountPerPageGroup;
+		if(endPage > this.getTotalPage())
+			endPage = this.getTotalPage();
 		return endPage;
 	}
 
@@ -171,7 +195,9 @@ public class PagingBeanEx {
 	 */
 	public boolean isPreviousPageGroup() {
 		boolean flag = false;
-		//
+		if(this.getNowPageGroup() > 1)
+			flag = true;
+		
 		return flag;
 	}
 
@@ -182,16 +208,20 @@ public class PagingBeanEx {
 	 * 1 2 3 4 / 5 6 7 8 / 9 10 <br>
 	 * 1 2 3 group
 	 * 
+	 * Next!!!!보여주느냐 마느냐 <br>
 	 * @return
 	 */
 	public boolean isNextPageGroup() {
 		boolean flag = false;
-		//
+		if(this.getNowPageGroup() < this.getTotalPageGroup())
+			flag = true;
+		
 		return flag;
 	}
 
 	public static void main(String args[]) {
 		PagingBeanEx p = new PagingBeanEx(47, 10);
+		//총게시물은 DB에서 가져와야함 
 		System.out.println("//////// 총게시물47개,현재페이지10 //////////");
 		// 현페이지의 시작 row number 를 조회 46
 		System.out.println("getStartRowNumber:" + p.getStartRowNumber());
@@ -212,12 +242,19 @@ public class PagingBeanEx {
 		System.out.println("isPreviousPageGroup:" + p.isPreviousPageGroup());
 		// 다음 페이지 그룹이 있는 지 : false
 		System.out.println("isNextPageGroup:" + p.isNextPageGroup());
+		
+		System.out.println("*******************************");
 		System.out.println("//////// 총게시물31개,현재페이지4 //////////");
 		p = new PagingBeanEx(31, 4);// 게시물수 31 현재 페이지 4
 		// 현페이지의 시작 row number 를 조회 26
 		System.out.println("getStartRowNumber:" + p.getStartRowNumber());
 		// 현페이지의 마지막 row number 를 조회 30
 		System.out.println("getEndRowNumber:" + p.getEndRowNumber());
+		//총 페이지수 
+		System.out.println("getTotalPage:"+p.getTotalPage());
+		//총 페이지 그룹수 
+		System.out.println("getTotalPageGroup:" + p.getTotalPageGroup());
+		
 		// 게시물수 31 -> 총페이지수 7 -> 총페이지그룹->2
 		// 현재 페이지 그룹 : 2
 		System.out.println("getNowPageGroup:" + p.getNowPageGroup());
