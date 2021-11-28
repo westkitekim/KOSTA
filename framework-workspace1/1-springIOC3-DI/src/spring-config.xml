@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="memberDAO" class="model.MemberDAOImpl"></bean><!-- 컨테이너가 객체 생성 -->
+<bean id="memberService" class="model.MemberServiceImpl">
+	<!--  -->
+	<constructor-arg>
+		<ref bean="memberDAO"/>
+	</constructor-arg>
+</bean><!-- ERROR : 생성자가 필요하기 때문에 contructor-arg 태그를 넣어줘서 생성자 생성해야 함 -->
+</beans>
