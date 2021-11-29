@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- id는 맘대로 정함 -->
+<bean id="productDAO" class="model.ProductDAOImpl"></bean>
+<!-- 생성자 문제는 아니므로 에러는 발생하지 않음  -->
+<bean id="productService" class="model.ProductServiceImpl">
+<!-- 제발 좀 bean 태그 안에 property, contructure-arg 태그를 넣어!!  -->
+<!-- 주입해서 객체 전달 -->
+	<property name="productDAO">
+		<ref bean="productDAO"/>
+	</property>
+</bean>
+</beans>
