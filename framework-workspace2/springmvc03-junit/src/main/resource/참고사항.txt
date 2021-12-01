@@ -1,0 +1,16 @@
+211201
+처음 프로젝트 생성시 
+next에서 src/text/java 폴더를 미리 만들고 프로젝트 생성해야 하는 것을 깜빡한 프로젝트임
+나중에 참고할 것 
+
+source folder
+folder  차이는 없고 
+
+미리 생성하지 않으면 maven 이 build path 에 자리잡고 있기 때문에 소스 생성이 안됨 
+직접 로컬 디렉토리로 가서 (properties의 경로로 가서 직접 src 밑에 test/java 디렉토리 생성) 
+or 프로젝트에서 ctrl + n 으로 folder 생성으로 들어가서 src 디렉으로 설정 후 test/java 폴더 생성하면 완료
+메이븐을 먼저 설정해놓아서 buildpath 에 잡혀졌기 때문에 따로 생성이 안되었던 것임(꼬인것)
+
+메이븐으로 설정한다음 (메이븐은 자기 구조가 기본적으로 있다- test, resource, main - 그래서 maven으로 변경후 소스폴더 테스트 생성이 안 된 것) 
+
+

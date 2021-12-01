@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		
+<!-- Annotation SpringMVC 설정 -->
+<mvc:annotation-driven/>
+
+<!-- 
+		ViewResolver(뷰 관련된 해결사)
+		InternalResourceViewResolver : 
+		
+		ViewResolver 정에 의해
+
+ -->
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- 오늘은 간단하게 서두인 prefix는 /로 -> value에 / -->
+	<!-- 모두 DispatcherServlet을 거치도록 하기위해 디렉 이동 -->
+	<property name="prefix" value="/WEB-INF/views/"/>
+	<property name="suffix" value=".jsp"/>
+</bean>
+</beans>
