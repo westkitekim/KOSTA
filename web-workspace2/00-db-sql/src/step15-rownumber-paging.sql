@@ -48,7 +48,8 @@ select row_number() over(order by no desc) as rnum, no, title from player;
 -- rnum이 3 이하인 곡들을 조회 --> ERROR: 조회된 결과에 대해 행번호(row number)를 부여하기 때문
 -- where절 ( == if문) 부터 수행되기 때문 : where rnum <= 3 가 먼저 수행 
 -- subquery 로 해결 
--- 조건절인 where 절이 가장 먼저 실행, rnum이 뭔지 모른다. 조회에서 정의되기 때문, Inline View 로 실행 
+-- 조건절인 where 절이 가장 먼저 실행(사실상 from이 가장 먼저),
+-- rnum이 뭔지 모른다. 조회에서 정의되기 때문, Inline View 로 실행 
 -- 전체 구문에서 항상 subquery 가 먼저 실행
 select row_number() over(order by no desc) as rnum, no, title from player where rnum <= 3;
 
