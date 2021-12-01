@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee; http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>springmvc02</display-name>
+  <!-- 프론트 컨트롤러를 만들어 사용했지만 dispatcherservlet사용 (얘가 frontcontroller servlet임) -->
+  <welcome-file-list>
+    <welcome-file>home.do</welcome-file>
+  </welcome-file-list>
+  <!-- 
+		Spring 에서 DispatcherServlet를 기본적으로 제공
+  		DispatcherServlet은 FrontControllerServlet이고, 
+  		자신의 spring 설정파일을 [servlet-name]-servlet.xml로 찾아서 로드한다.
+  		
+  		즉, springmvc-servlet.xml이 스프링 설정파일명이 된다.
+  		
+  		필요한 것들을 DispatcherServlet이 getBean?? 
+  		
+  		**********************************************************
+  		
+  		DispatcherServlet : SpringMVC 에서 제공하는 Front ControllerServlet 
+  							모든 클라이언트의 요청을 하나의 진입점으로 통합해서 처리
+  							(FrontController Design Pattern)
+  							
+  		FrontController인 DispatcherServlet은 자신의 설정파일(spring configuration)을 
+  		서블릿이름-servlet.xml 로 찾아서 로드한다.(DispatcherServlet이 만듦)
+  		
+  		<load-on-startup>1</load-on-startup> : 
+  		Servlet LifeCycle에서 위 설정이 없으면 클라이언트의 첫 번째 요청 시에 
+  		DispatcherServlet의 객체 생성 - init - service 가 이루어지므로 
+  		웹어플리케이션 시작시점에 DispatcherServlet이 초기화되도록 설정한 것이다.
+  		
+  		.do 스타일로 요청이 오면 DispatcherServlet이 처리하도록 url-pattern을 설정한다
+  -->
+  <servlet>
+  	<servlet-name>dispatcher</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<!-- 첫 클라이언트가 왔을 때 로딩되기 때문에 어플리케이션 시작과 동시에 디스패처서블릿이 로딩되도록 함, 스프링이 Dispatcher기본 제공 -->
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>dispatcher</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <!-- post방식 인코딩처리 , 스프링에서 제공해주는 filter 사용 -->
+  <filter>
+	<filter-name>EncodingFilter</filter-name>
+	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	<init-param>
+	<param-name>encoding</param-name>
+	<param-value>utf-8</param-value>
+	</init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+</web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

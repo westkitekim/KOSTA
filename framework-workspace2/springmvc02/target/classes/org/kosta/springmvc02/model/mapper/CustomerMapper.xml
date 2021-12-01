@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kosta.springmvc02.model.mapper.CustomerMapper">
+	<!-- mapping 을 해주는 mapper interface에 해당 메서드가 없으면 에러 -->
+	<select id="getTotalCustomerCount" resultType="int">
+		select count(*) from SPRING_CUSTOMER
+	</select>
+	
+	<select id="findCustomerById" resultType="CustomerDTO">
+		select id, name, address from SPRING_CUSTOMER where id=#{value}
+	</select>
+	
+	<insert id="registerCustomer" parameterType="CustomerDTO">
+		insert into SPRING_CUSTOMER(id, name, address) values(#{id}, #{name}, #{address})
+	</insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
