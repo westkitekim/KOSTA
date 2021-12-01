@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kosta.springmvc04.model.mapper.ItemMapper">
+<!-- id는 인터페이스에서 해당 메서드명 -->
+<select id="getTotalItemCount" resultType="int">
+	select count(*) from SPRING_ITEM
+</select>
+<!-- 중복되는 sql 문자열 일부분 가져오기 -->
+<sql id="selectItem">
+	select item_no, name, maker, price, to_char(reg_date, 'YYYY-MM-DD HH24:MI:SS')as regDate from spring_item
+</sql>
+
+<select id="findItemByNo" parameterType="int" resultType="ItemDTO">
+	<include refid="selectItem"/>
+	where item_no=#{value}
+</select>
+
+<select id="getAllItemList" resultType="ItemDTO">
+	<include refid="selectItem"/>
+	order by item_no desc
+</select>
+
+<insert id="registerItem" parameterType="ItemDTO">
+	insert into spring_item 
+	values(spring_item_seq.nextval,#{name},#{maker},#{price}, sysdate)
+	<!-- keyproperty : 할당할 컬럼명 -->
+	<!-- insert 시키는 시점에서만 currval 수행 가능 -->
+	<selectKey keyProperty="itemNo" resultType="int" order="AFTER">
+		select spring_item_seq.currval from dual
+	</selectKey>
+</insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
