@@ -1,0 +1,50 @@
+**Ajax**
+비동기 자바스크립트 통신 
+필요한 데이터만 응답받는다 
+JSON or XML -> 구조화된 데이터를 송수신하기 위해 사용 
+
+Ajax 개발패턴 
+- XMLHttpRequest 객체 생성 
+- callback 함수 등록 
+- open() 
+- send() 
+
+jQuery 에서는 Ajax 통신을 위한 다양한 함수를 제공 
+
+일반 문자열로 응답받을 때 
+$.ajax({
+	type:"",
+	url:"",
+	data:"",
+	success:function(result){
+	
+	}
+});
+JSON Type으로 응답받을 때 
+$.ajax({
+	type:"",
+	dataType:"json",
+	url:"",
+	data:"",
+	success:function(result){
+	
+	}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
