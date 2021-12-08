@@ -1,0 +1,293 @@
+**Framework** 
+주요목차
+- Spring DI ( IOC )
+- Spring AOP
+- MyBatis Framework
+- SpringMVC ( Spring Legacy project )
+- Ajax / JQuery / JSON / REST(스프링클라우드, 마이크로 아키텍쳐 등에서 많이 사용)
+- SpringBoot
+- AOP Transaction
+- Thymeleaf(JSP 후에 나온 기술, 퍼블리셔 디자인과 협업하기 좋고, 유지보수에도 좋음, JSP로도 할 수 있지만 타임리프를 선호한다. 기본 제공되는 기술)
+- SpringSecurity(인증, 인가, 비밀번호 암호화<복호화X>, csrf 해킹방지)
+
+< 파이널 후 진행되는 과정 > 
+- Spring Cloud ( MSA ) , RestTemplate, JPA(sql과 mybatis를 잘 아는 상태에서 공부해야함)  
+
+---------------------------------------------------------------------------------------------------------------------
+
+▣ 개념정리
+  높은 응집도 (high cohesion),	낮은(느슨한) 결합도 ( loose coupling ) 
+  "모듈 간의 결합도는 최소화하고 모듈 내 요소들 간의 응집도를 최대화" 
+
+  ▷ 응집도 : 자신의 역할에 집중하는 정도(프로젝트의 기본 개념이자 원리) 
+		   모듈 내의 기능 수행을 위해 요소간에 얼마만큼 연관된 책임이 집중되어 있는지를 나타내는 정도
+  ▷ 결합도 : 모듈 간의 상호 의존 정도
+
+
+  ▷ 객체 지향 ( Object-Oriented ) 
+  	- 시스템 분석 설계 기법
+  	- 객체를 독립적인 기본단위로 채택하고, 객체와 객체의 관계를 중심으로 분석, 설계하는 기법 
+  	
+  ▷ Class : Object의 설계도
+  ▷ Object : 속성과 기능으로 구성, 시스템의 기본 단위 
+  ▷ package : 클래스들을 분류 
+  ▷ library : 라이브러리, 재사용 가능한 프로그램들의 모음 ( jar : 자바 프로그램 압축 파일 확장자 ) 
+  
+  ▷ component : 프로그램이 실행될 때 하나의 독립적 기능단위를 이루어 부품화되는 것 (java에서는 Bean 이라고 표현, bean : 자바 컴포넌트) 
+    라이브러리와 컴포넌트 혼용해서 사용 - 라이브러리가 컴포넌트가 될 수 있고 컴포넌트가 라이브러리가 될 수 있음 -> 어떤 측면에서 보느냐에 따라 달라진다 
+    
+  ▷ API : Application Programming Interface
+  		  응용프로그램을 개발하기 위해 제공하는 인터페이스(서비스를 제공해주는 것, 응용프로그램 신속하게 개발하기 위해 제공해줌) 
+  		  사용법을 알면 사용 가능(카카오 API) , 인터페이스 사용법
+  		  
+  ▷ 라이브러리 API 구분 ?
+ 
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★    
+
+  ▷ Framework
+  	- 사전적 의미 : 뼈대, 틀, 기반(infrastructure)
+  	
+  ▷ Spring Framework
+    - java 어플리케이션의 설계, 구현, 테스트, 운영(maintanance, 유지보수) 전반에 대한 기반(infrastructure)을 제공 
+  	- 다양한 컴포넌트(or 라이브러리)를 제공하고 디자인 패턴을 지원한다
+  	- 프레임워크는 반완전한 어플리케이션이다 => 개발자는 비즈니스 로직에 집중하도록 하는 것이 목적 ! 
+  	
+  	- IOC/DI, AOP, MVC, Security, SpringBoot 등을 지원하고 
+  	  MyBatis, JUnit 등과 같은 오픈 소스 프레임워크와의 통합을 지원한다
+  
+  ▷ Spring
+  ▷ IOC : Inversion Of Control, 제어의 반전(역행), 역제어 // 반대로 진행(전개)된다, ex. Tenet
+  		  컴포넌트를 구성하는 인스턴스 생성과 의존 관계 연결처리를 IOC 컨테이너에 위임한다
+  		  
+  ▷ DI : Dependency Injection, 의존성 주입 // IOC 실현 방법 중에 DI 가 있다
+  		 필요로 하는 의존대상(컴포넌트 or 객체 or bean)을 injection(주입)을 통해 확보한다
+  
+  ▷ DL : Dependency Lookup, 의존성 검색 
+  		 필요로 하는 의존대상(컴포넌트 or 객체 or bean)을 lookup(검색)을 통해 확보한다
+
+  ▷ IOC, DI, DL 의 목적 -> ★★★ Loose Coupling (느슨한 결합도)
+  
+  ▷ 예제는 xml로 먼저 진행 후 단계별로 상승
+  
+  < Wikipedia >
+  In software engineering, inversion of control (IoC) is a programming principle. 
+  IoC inverts the flow of control as compared to traditional control flow. 
+  In IoC, custom-written portions of a computer program receive the flow of control from a generic framework.
+
+  ▷ Spring IOC Container 는 Singleton 방식으로 객체를 운용한다
+    참고) Singleton Design Pattern : 시스템 상에서 단 하나의 객체를 생성하고 공유해 사용하기 위한 디자인 패턴
+
+
+  ▷ Maven : 
+    - 의존 라이브러리 ( dependency library ) 를 일괄적으로 관리 
+  	- 원격 저장소에 있는 라이브러리를 한번 로컬 저장소에 저장해 재사용한다 
+    - 설정파일은 pom.xml 이고 필요한 라이브러리를 이곳에 추가해서 사용한다 
+    
+  ------------------------------------------------------------
+  //개인적으로 작성한 Maven 추가설명
+  ▷ Maven(메이븐) = Dependency Management
+
+	1. 의존성 관리
+	2. 어플리케이션이 필요한 많은 라이브러리를 일괄적으로 관리
+
+	pom.xml 에서 설정한다
+
+	- pom(project object model)
+	
+	pom.xml 에 필요한 외부라이브러리를 설정하면,
+	원천사이트에서 원격으로 한번 로컬라이브러리 저장소에 저장하고,
+	이를 지속적으로 사용할 수 있다
+
+  ------------------------------------------------------------
+  
+  ▷ AOP ( Aspect Oriented Programming ) : 관점 지향 프로그래밍, //pointcut 으로 지정하고, 공통관심사 적용시점은 around advice로 주었습니다~ 
+    - 시스템을 핵심관심사( Core Concern )와 횡단관심사 or 공통관심사( Cross-Cutting Concern )로 
+      구분해 설계, 구현, 테스트, 운영하는 것을 말한다. 
+    - AOP는 IOC를 전제로 한다.(IOC기법 무조건 필요) 
+    
+    - 핵심관심사(Core Concern) : 시스템의 업무 목적에 해당하는 주요 로직 ( ex. 결제 등록 게시 ) 
+    - 횡단관심사(Cross-Cutting Concern) : 시스템의 여러 부분에 걸쳐 적용되는 공통적인 로직 ( ex. 트랜잭션, 로깅, 보안 )
+    
+    - AOP 사용 목적 : AOP는 시스템의 여러 영역에 걸쳐 공통적이고 반복적으로 적용된 횡단관심사 로직을 분리하여 
+    				별도의 모듈에서 설계, 구현, 테스트, 운영하는 프로그래밍 기법이다.
+    				-> 반복적인 작업을 피할 수 있어서 효율적인 개발이 가능하고
+    				   이후 유지보수시 AOP 부분만 변경하면 되므로 유지보수성이 향상된다.(느슨한 결합도 목적 동일) 
+   
+  ▷ AOP 용어
+    - Advice : 적용시점 + Cross-Cutting Concern ( 공통 기능 )
+    	       어느 시점에 Cross-Cutting Concern을 Core Concern 에 적용할 것인가를 정의 
+    	       (advice 종류 : before, after, after-returning, after-throwing, around )
+    	       
+    - Weaving : Advice를 Core에 적용하는 것
+    
+    - Pointcut : Advice 적용 대상을 지정하는 기술(Algorithm), AspectJ 기술을 이용(execution, within, bean)
+    
+  ▷ Proxy Design Pattern : AOP 에 적용된 주요 디자인 패턴
+  
+  	- Proxy 대리인, 대신해서 역할을 수행
+  	- 사용하는 측과 서비스를 제공하는 측의 인터페이스 역할을 Proxy가 한다.(ex. 팬 - 아이유매니저 - 아이유) 
+  																	 Proxy
+  	- Core 객체를 사용하고자 할 때, 사용하는 측에서 실제 Core 객체를 참조하는 것이 아니라
+  	  대리인 역할을 하는 Proxy 객체를 통해 Core 객체를 사용하게 함으로써
+  	  Proxy 객체가 Cross-Cutting Concern을 수행하게 한다. 
+  
+  ▷ AOP 동작원리
+  	  
+  	- Spring IOC Container는 AOP 적용시 실제 Target Core 객체가 아니라 
+  	  Proxy 객체를 사용하는 측으로 반환해, 
+  	  Core 실행시 Cross-Cutting Concern 이 실행되도록 하는 구조이다.
+  	
+  	- Proxy는 Core 가 implements 하는 인터페이스를 동일하게 implements 한다.
+  	  만약 Core가 인터페이스를 implements 하지 않을 때는 Proxy가 Core를 extends 하여 
+  	  사용하는 측에서 서비스를 호출할 때 Proxy가 아닌 Core를 실행하는 것처럼 느끼게 한다.
+  	  ==> Proxy 와 Core는 동일한 인터페이스를 implements 한다. 인터페이스가 없는 경우는 Core 를 상속함. 
+  	  
+  	  프록시 사용하는 측과 제공하는 측의 인터페이스역할 제공 
+  	  프록시가 횡단관심사를 작동하게 한다. 
+  	  아이유과 팬 클라이언트가 있는데 매니저 프록시가 컨테이터로 주입하게 하고 
+  	  
+  
+    
+  ▷ log4j: 프로그램 작성시 로그를 남기기 위해 사용되는 자바 기반 로깅 유틸리티(or 라이브러리)
+	       설정 파일에서 팩키지별로 레벨 지정이 가능, 지정한 등급 이상의 로그만 저장하는 방식이다.
+
+			FATAL(가장 높은 로그레벨)
+			ERROR
+			WARN
+			INFO
+			DEBUG
+			TRACE(가장 낮은 로그레벨) 
+			
+			ex. info로 잡으면 info 이상만 로그 
+
+  ▷ 스프링 설정 방식 종류
+  	- xml 
+  	- annotation 
+  	- java config
+  	- properties
+  	- yaml
+  	
+  	▶ Annotation
+  	  : 의미있는 주석 -> Annotation 은 컴파일과 런타임시에 영향을 주는 의미있는 주석이다. (ex. compile시에 확인하기 위해 오버라이딩할 때 사용)
+  	  	자바 소스코드 상에 기술하는 메타데이터 
+  	  	  - 메타데이터 : 데이터의 데이터, 데이터들을 설명하기 위한 데이터 
+  	  	  			  ex) 택배상자 위에 붙는 운송장( 택배상품들에 대한 정보 )<ex. 메타인지, 메타버스 : 실세계 위에 다시 새로운 추상적 물리적 세계>)
+		
+	▶ Spring Annotation -> 설정 정보의 역할
+	
+	  ◎ @Component 계열 어노테이션[객체 생성] -> 컴포넌트 계열 어노테이션이 적용된 클래스는 스프링 컨테이너에 의해 bean으로 생성됨
+	  	1. @Repository : 영속성 계층(Persistance Layer)에서 사용 (Data Access Login 을 정의한 객체에 적용 (ex. DAO, etc))
+	  	2. @Service : 비즈니스 계층에서 사용 ( Service or Business Logic 을 정의한 객체에 적용 ) 
+	  	3. @Controller : 프리젠테이션 계층의 컨트롤러에서 사용 ( MVC 의 Controller Logic을 정의한 객체에 적용 )
+	  
+	  	나중에 세밀한 제어를 위해 각각 다른 어노테이션이 필요하다.
+	  
+	  ◎ DI(Dependency Injection) 계열 어노테이션[객체 주입] (크게 Component계열과 DI 계열 2가지임, 주로 DI 많이 사용) -> 스프링 컨테이너로부터 의존성 주입(필요로 하는 bean을 주입) 
+	  
+	  	1. @Autowired : 의존대상 bean을 타입으로 검색해 주입 ( 생성자, 필드, setter )
+	  				  -> 동일한 인터페이스를 여러 개의 클래스가 구현하는 상태에서는
+	  				     @Autowired + @Qualified("bean id") 어노테이션을 추가적으로 명시한다.
+	  				  	 그 외에 생성자가 1개일때는 생략가능
+	  				  	 
+	  	2. @Resource : 의존대상 bean을 타입으로 검색해 주입 ( 필드, setter ) 
+	  				 -> 동일한 인터페이스를 여러 개의 클래스가 구현하는 상태에서는
+	  				 	@Resource(name="bean id") name 속성을 추가적으로 명시한다.
+	  
+	▶ spring-config.xml 에서 IOC, DI, DL 에 대한 설정 
+	  <context:component-scan base-package="패키지명(ex.org.kosta)"> (콤마를 사용해서 여러 패키지 사용 가능)
+	  => org.kosta 패키지 및 하위 패키지의 컴포넌트 계열 어노테이션이 명시된 클래스를 탐색해서 bean을 생성해 BeanFactory에 저장하고
+	  	 DI 계열 어노테이션이 명시된 대상에 대해 의존성 주입을 한다.
+
+  ▷ MyBatis Framework
+  	- Java Persistance Framework
+  	- 영속성 계층 프레임워크
+	- 자바 어플리케이션과 데이터베이스 연동시 반복적인 작업( Connection, PreparedStatement, ResultSet, close ) 을 
+	  프레임워크 차원에서 지원하여 생산성이 향상
+	  
+	  
+  ▷ SpringMVC
+  	▶ Spring Framework 기반 java web application 구현을 위한 기술
+  	
+  	▶ MVC + FrontController Design Pattern (기반 디자인 패턴) 
+  	
+  	▶ MVC Pattern
+  	  - Model : Data Access Logic + Business Logic
+  	  - View : 클라이언트에게 응답하는 정보 (web page or data ( text or json ))
+  	  - Controller : 클라이언트의 요청과 응답에 대한 제어자의 역할
+  		  			 요청분석, 모델과 연동, 적절한 view 로 응답, 주 기술 : Servlet ( spring에서는 DispatcherServlet ) 
+  	▶ Front Controller Pattern
+  	  - 모든 클라이언트의 요청을 하나의 진입점으로 통합하여 처리하는 디자인 패턴 
+  	  	공통 정책을 일관성 있게 수행할 수 있다 (공통정책 : 인증 및 인가, 인코딩, 예외처리 등) 
+  	
+  	▶ SpringMVC 주요 구성요소 
+  	  - DispatcherServlet : Front Controller Servlet
+  	  						spring configuration을 로딩
+  	  						
+  	  - HandlerMapping : 요청을 처리할 컨트롤러를 매핑(연결) 
+  	  					 (어노테이션 기반 RequestMappingHandlerMapping 을 사용)
+  	  
+  	  - HandlerAdapter : HandlerMapping 에서 결정된 컨트롤러를 실제로 실행시키는 역할(상당히 많은 역할을 한다) 
+  	  					 컨트롤러 메서드에서 필요한 매개변수의 인자값을 생성해서 제공 
+  	  					 ( 어노테이션 기반 RequestMappingHandlerAdapter 를 사용 )
+  	  					 
+  	  - ModelAndView : 컨트롤러가 수행한 후 DispatcherServlet에게 반환하는 정보
+  	  				   Model 과 연동한 정보와 			View 정보를 할당해서 반환
+  	  				   (request.setAttribute ) 	(view name)			 
+  	  				   
+  	  - ViewResolver : 컨트롤러가 반환한 ModelAndView의 view name 을 바탕으로 
+  	  				   클라이언트에게 응답할 적절한 view 방식을 제공
+  	  				   (InternalResourceViewResolver : prefix -> /WEB-INF/views/, suffix -> .jsp )				 
+  	  				   (ex. tiles, thymeleaf)
+  	  
+  	  ◎ 위의 구성요소들은 스프링 프레임워크에서 제공하는 요소들이다 
+  	  
+  	  ◎ 아래 구성요소들은 개발자가 구현해야 하는 요소들이다
+  	  - Controller : 개발자가 컨트롤러 로직을 정의 (주요 설정(어노테이션): @Controller, @RequestMapping, @ResponseBody etc)
+  	  - View : 개발자가 응답할 웹 페이지 또는 데이터를 정의  					 
+  	  				
+  ▩ JUnit
+  	- TDD Framework( Test Driven Development Framework ) 
+  	- 자바 단위테스트를 위한 프레임워크
+  	- 스프링과 연동하면 DI를 이용해 단위테스트가 가능  	    			
+  		 
+  ▩ Ajax, JSON 
+  
+    ▷ Ajax ( Asynchronus Javascript And Xml ) 
+      - 비동기 웹 통신기법
+      - 전체 페이지 로딩없이 필요한 데이터만 응답
+      
+    ▷ JSON 과 XML : 구조화된 데이터를 송수신하기 위해 사용 
+      
+    ▷ JSON
+      - JavaScript Object Notation 자바스크립트 객체 표기법 
+      - 경량의 데이터 교환형식
+      - Ajax에서는 구조화된 데이터를 송수신하는 용도로 사용됨
+        cf) 2000년대 중반(= 초기)에는 XML을 통신용으로 사용했으나
+        	그 이후 가볍고 생산성이 높은 JSON을 Ajax 통신용으로 주로 사용중
+    
+    ▷ XMLHttpRequest
+      - Ajax 통신을 위한 자바스크립트 객체
+     
+	▷ Callback function 
+	  - 이벤트 발생 시 호출되는 함수를 말함
+	  - Ajax에서는 서버가 응답하면 실행될 함수를 뜻함
+
+  ▩ jQuery
+    - 다양한 기능을 지원하는 JavaScript 라이브러리 
+    - DOM( Document Object Model, 도큐먼트를 제어하기위한 프로그래밍 인터페이스 )
+      에 대한 다양한 함수를 지원
+    - 다양한 셀렉터를 지원
+    - Ajax 관련 기능을 지원
+
+
+  면접 시 꼭 알아둘 사항>
+  
+  window load 와 jquery document ready 의 차이점 
+  -> window load 는 img , 동영상과 같은 요소들이 모두 load 된 후에 호출 
+  -> document ready 는 DOM 이 load 되는 시점에 호출 
+     ( 이미지나 동영상 같은 자원들이 로드되지 않아도  document 객체가 준비되면 실행)
+     jquery document ready 가 되는 시점에 익명함수 내에 현 페이지에서 동작될 이벤트에 대한 동작을 바인딩(등록)
+  
+
+
+

@@ -1,0 +1,99 @@
+ 				
+**SpringBoot Project**
+스프링 부트는 스프링의 하위 프로젝트 중 하나로써
+"단독으로 빠르게 개발 가능한 스프링 프로젝트"이다 
+프로젝트 차원에서 웹컨테이너를 내장하여
+stand-alone 한 프로젝트를 지원한다 (물론 기존 방식으로 서버에 배포해서 실행 가능하다)
+(stand-alone[스탠드 얼론]이란 다른 어떤 장치의 도움 없이 그 자체만으로 완비된 장치를 말한다)
+스프링 관련 복잡한 설정을 자동화하고 간편화하여
+효율적으로 개발 할 수 있도록 지원한다
+
+*COC* 
+설정을 넘어 관례(CoC; Convention over Configuration) : 
+관습적이지않은 면(unconventional aspects of the application)만 정의
+즉 자주 사용하는 부분은 관례를 정하여 자동 설정하고 이를 따르지 않을 경우에만 설정
+
+1. New Spring Start Project 에서 
+
+Name, Group ID, Java Version, Package 입력  
+
+2. New Spring Starter Project Dependencies에서 
+Spring Boot DevTools(자동리로딩)
+Spring Web
+MyBatis Framework  입력 
+
+
+3. 프로젝트 생성 완료 후 
+pom.xml에 추가 
+<dependency>
+<groupId>org.apache.tomcat.embed</groupId>
+<artifactId>tomcat-embed-jasper</artifactId>
+</dependency>
+<dependency>
+<groupId>javax.servlet</groupId>
+<artifactId>jstl</artifactId>
+</dependency>
+
+4. src/main/resources 의 application.properties 에서 설정한다 
+# port setting 
+server.port=7777
+# dbcp setting
+spring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521:xe 
+spring.datasource.username=scott 
+spring.datasource.password=tiger 
+#view resolver
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+#devtools : reloading 
+spring.devtools.livereload.enabled=true
+
+#log level setting
+#logging.level.root=ERROR
+
+# mybatis setting
+#mybatis.type-aliases-package=org.kosta.myproject.model
+#mybatis.configuration.map-underscore-to-camel-case=true
+
+5. 아래편 src/main에서  webapp/WEB-INF/views 디렉토리 생성 후  home.jsp 작성하고
+   상단부 src/main/java에서 org.kosta 팩키지 이하에서 org.kosta.controller.HomeController 만든 후 
+   org.kosta의 SpringbootApplication 실행하고 브라우저에서 localhost:7777 로 테스트 해본다 		
+   
+6. SpringBoot는 SpringBootStudy1Application.java 의 main을 실행시킨다 ( 기존 run on server 는 사용 x ) 
+7. 정적인 파일은 src\main\resources\static 아래에 위치시킨다 ( 이미지 , css , js .. )    
+   
+   
+8. 기존 스타일로도 배포 가능
+
+9. 예전 소켓프로그래밍 할 때, 다시 재실행ㅎㅅ시 Port 7777 was already in use 에러난다. 
+기존 서버가 띄워져 있는지 확인할 것(기존 서버가 띄워져 있으면 에러남)  
+
+@SpringBootApplication 이 있는 클래스가 가장 해ㄱ심역할, 
+
+
+   
+ 														 		   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
