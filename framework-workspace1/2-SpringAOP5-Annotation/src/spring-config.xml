@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+<!-- Annotation IOC DI DL 설정 -->
+<context:component-scan base-package="org.kosta"/>
+
+<!-- Annotation AOP 설정 -->
+<!-- 아래 코드 한 줄이면 끝남, autoproxy : 자동으로 프록시 생성, AOP 가 적용된다는 것은 횡단관심사 주축이 되는 proxy 사용0 -->
+<!-- 아래 코드는 AOP Annotation을 찾아서 AOP 설정 정보들을 읽어서 적용한다. 어노테이션을 함께 쓰기 때문에 xml 코드 간결해진다. -->
+<aop:aspectj-autoproxy/>
+</beans>
