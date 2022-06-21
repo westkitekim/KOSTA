@@ -6,7 +6,7 @@
 		
 		- SYSDATE 예약어 : 현재 시간을 표현하는 키워드 
 		
-		참고) Oracle DAUL 테이블 : 오라클에서 제공하는 기본 테이블, 함수 및 키워드를 실행할 때 사용 
+		참고) Oracle DUAL 테이블 : 오라클에서 제공하는 기본 테이블, 함수 및 키워드를 실행할 때 사용 
  */
 
 SELECT SYSDATE FROM DUAL;
